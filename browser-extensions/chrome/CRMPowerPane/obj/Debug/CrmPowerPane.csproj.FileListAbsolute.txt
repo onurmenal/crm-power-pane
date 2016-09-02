@@ -1,0 +1,5 @@
+C:\Workspace\CRM Power Pane\CRMPowerPane\bin\CrmJSFiddle.dll
+C:\Workspace\CRM Power Pane\CRMPowerPane\bin\CrmJSFiddle.pdb
+C:\Workspace\CRM Power Pane\CRMPowerPane\obj\Debug\CrmPowerPane.csprojResolveAssemblyReference.cache
+C:\Workspace\CRM Power Pane\CRMPowerPane\obj\Debug\CrmJSFiddle.dll
+C:\Workspace\CRM Power Pane\CRMPowerPane\obj\Debug\CrmJSFiddle.pdb

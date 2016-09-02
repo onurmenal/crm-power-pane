@@ -1,0 +1,46 @@
+{
+    "manifest_version": 2,
+    "name": "CRM Power Pane",
+    "short_name": "Crm Power Pane",
+    "version": "1.0.2",
+    "description": "Power up up up...",
+    "browser_action": {
+        "default_icon": "img/icon-48.png",
+        "default_title": "CRM Power Pane"
+    },
+    "icons": {
+        "32": "img/icon-32.png",
+        "48": "img/icon-48.png",
+        "64": "img/icon-64.png",
+        "128": "img/icon-128.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [ "<all_urls>" ],
+            "js": ["js/content.js"],
+            "all_frames": true,
+            "run_at": "document_end",
+            "css": [ "power-pane/style.css" ]
+        }
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "permissions": [
+        "identity",
+        "tabs",
+        "activeTab",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Alt+A"
+            },
+            "description": "Activate the extension"
+        }
+    },
+    "web_accessible_resources": [
+        "power-pane/*",
+        "img/icon-24.png" ]
+}
