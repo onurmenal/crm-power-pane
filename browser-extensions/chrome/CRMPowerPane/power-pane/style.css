@@ -16,7 +16,7 @@
     position:absolute;
     background-color:white;
     color:black;
-    padding:10px 0px;
+    padding:10px 0px 10px 30px;
     font-size:14px;
     box-shadow: 5px 5px 5px #CCC;                          
 }
@@ -92,6 +92,12 @@
     border: 1px solid #DDD;
 }
 
+.crm-power-pane-success {
+    background-color: rgb(165, 251, 180);
+    color: rgb(74, 148, 87);
+    border-color: rgb(125, 234, 144);
+}
+
 #crm-power-pane-popup-bg {
     display:none;
     background-color: black;
@@ -110,8 +116,10 @@
     width:300px;
     height:450px;
     background-color:white;
-    border:10px solid red;
+    box-shadow:0px 0px 15px black;
     position:absolute;
-    left:41%;
+    left:50%;
+    top:15%;
+    margin-left:-175px;
 
 }

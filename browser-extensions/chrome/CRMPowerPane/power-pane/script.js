@@ -2,17 +2,20 @@ $(function () {
     var CrmPowerPane = {
         Constants: {
             SlideTime: 250,
-            NotificationClassPrefix: "crm-power-pane-"
+            NotificationClassPrefix: "crm-power-pane-",
+            NotificationTimer: null
         },
         UI: {
             ShowNotification: function (message, type, time) {
+                window.clearTimeout(CrmPowerPane.Constants.NotificationTimer);
                 time = time || 4000;
                 type = type || 'info';
                 var className = CrmPowerPane.Constants.NotificationClassPrefix + type;
                 var $notification = $("#crm-power-pane-notification");
                 $notification.find('span').html(message);
-                $notification.removeClass().addClass(className).fadeIn(CrmPowerPane.Constants.SlideTime);
-                setTimeout(function () {
+                $notification.attr('class', '');
+                $notification.addClass(className).fadeIn(CrmPowerPane.Constants.SlideTime);
+                CrmPowerPane.Constants.NotificationTimer = setTimeout(function () {
                     $notification.fadeOut(CrmPowerPane.Constants.SlideTime);
                 }, time);
             }
@@ -72,7 +75,6 @@ $(function () {
                 }
             });
 
-
             $("#entity-name").click(function () {
                 window.prompt("Entity Name:", Xrm.Page.data.entity.getEntityName());
             });
@@ -96,67 +98,91 @@ $(function () {
             });
 
             $("#go-to-record").click(function () {
-                CrmPowerPane.UI.ShowNotification("madafaka!");
+                
             });
 
             $("#enable-all-fields").click(function () {
-                Xrm.Page.ui.controls.forEach(function (c) {
-                    try {
-                        c.setDisabled(false);
-                    } catch (e) { }
-                });
+                try {
+                    Xrm.Page.ui.controls.forEach(function (c) {
+                        try {
+                            c.setDisabled(false);
+                        } catch (e) { }
+                    });
+                    CrmPowerPane.UI.ShowNotification("All fields are enabled.");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating disable status of all fields as false.", "error");
+                }
             });
 
             $("#show-all-fields").click(function () {
-                Xrm.Page.ui.controls.forEach(function (c) {
-                    try {
-                        c.setVisible(true);
-                    } catch (e) { }
-                });
+                try {
+                    Xrm.Page.ui.controls.forEach(function (c) {
+                        try {
+                            c.setVisible(true);
+                        } catch (e) { }
+                    });
+                    CrmPowerPane.UI.ShowNotification("Visibility of all fields updated as visible.");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating visibility  of all fields as visible.", "error");
+                }
             });
 
             $("#disable-field-requirement").click(function () {
-                Xrm.Page.ui.controls.forEach(function (c) {
-                    try {
-                        if (c && c.getAttribute && c.getAttribute().setRequiredLevel)
-                            c.getAttribute().setRequiredLevel("none");
-                    } catch (e) {
-                        CrmPowerPane.UI.ShowNotification("An error ocurred whilst changing required level of fields.", "error");
-                    }
-                });
-                CrmPowerPane.UI.ShowNotification("Requirement level of all fields updated as none.");
+                try {
+                    Xrm.Page.ui.controls.forEach(function (c) {
+                        try {
+                            if (c && c.getAttribute && c.getAttribute().setRequiredLevel)
+                                c.getAttribute().setRequiredLevel("none");
+                        } catch (e) { }
+                    });
+                    CrmPowerPane.UI.ShowNotification("Required level of all fields updated as none.");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating required level of all fields as none.", "error");
+                }
             });
 
             $("#schema-names").click(function () {
-                Xrm.Page.ui.controls.forEach(function (a) {
-                    try {
-                        if (a && a.setLabel && a.getName)
-                            a.setLabel(a.getName());
-                    } catch (e) { }
-                });
+                try {
+                    Xrm.Page.ui.controls.forEach(function (a) {
+                        try {
+                            if (a && a.setLabel && a.getName)
+                                a.setLabel(a.getName());
+                        } catch (e) { }
+                    });
+                    CrmPowerPane.UI.ShowNotification("All labels updated as schema name.");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating label names as schema name.", "error");
+                }
             });
 
             $("#schema-names-as-desc").click(function () {
-                Xrm.Page.ui.controls.forEach(function (e, t) {
-                    var o = e.getName(),
-                        n = e.getLabel(),
-                        l = Content.$("#" + o + "_c");
-                    l.attr("title", o), l.off("click").click(function () {
-                        var e = document.queryCommandSupported("copy");
-                        if (e) {
-                            var t = document.createElement("textarea");
-                            t.style.position = "fixed", t.style.top = 0, t.style.left = 0, t.style.width = "2em", t.style.height = "2em", t.style.padding = 0, t.style.border = "none", t.style.outline = "none", t.style.boxShadow = "none", t.style.background = "transparent", t.value = o, document.body.appendChild(t), t.select();
-                            try {
-                                var l = document.execCommand("copy"),
-                                    c = l ? "successful" : "unsuccessful";
-                                console.log("Copying text command was " + c), l ? alert("Copied " + o + " to clipboard.") : prompt("Copying failed. Please copy it yourself. " + n, o)
-                            } catch (i) {
-                                console.log("Oops, unable to copy")
-                            }
-                        } else prompt("Copying is not supported. Please copy it yourself. " + n, o)
-                    })
-                });
-                CrmPowerPane.UI.ShowNotification("");
+                try {
+                    Xrm.Page.ui.controls.forEach(function (e, t) {
+                        var o = e.getName(),
+                            n = e.getLabel(),
+                            l = Content.$("#" + o + "_c");
+                        l.attr("title", o), l.off("click").click(function () {
+                            var e = document.queryCommandSupported("copy");
+                            if (e) {
+                                var t = document.createElement("textarea");
+                                t.style.position = "fixed", t.style.top = 0, t.style.left = 0, t.style.width = "2em", t.style.height = "2em", t.style.padding = 0, t.style.border = "none", t.style.outline = "none", t.style.boxShadow = "none", t.style.background = "transparent", t.value = o, document.body.appendChild(t), t.select();
+                                try {
+                                    var l = document.execCommand("copy");
+                                    if (l) {
+                                        CrmPowerPane.UI.ShowNotification("Copied <b>\"" + o + "\"</b> to clipboard.", "success");
+                                    } else {
+                                        CrmPowerPane.UI.ShowNotification("Copying failed. Please copy it yourself.", "error");
+                                    }
+                                } catch (i) {
+                                    console.log("Oops, unable to copy")
+                                }
+                            } else prompt("Copying is not supported. Please copy it yourself. " + n, o)
+                        })
+                    });
+                    CrmPowerPane.UI.ShowNotification("Schema name mode is activated for descriptions. You can copy it with label click."); // ui message will change 
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst activating schema name mode on descriptions.", "error");
+                }
             });
 
             $("#refresh-form").click(function () {
