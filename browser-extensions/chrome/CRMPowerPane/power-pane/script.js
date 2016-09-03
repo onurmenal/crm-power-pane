@@ -60,6 +60,19 @@ $(function () {
                 $(".crm-power-pane-sections").slideToggle(CrmPowerPane.Constants.SlideTime);
             });
 
+            $(window).blur(function () {
+                if (document.activeElement.id == 'contentIFrame0') {
+                    var $panes = $(".crm-power-pane-sections");
+                    if ($panes.length) {
+                        var $pane = $panes.first();
+                        if ($pane.css('display') !== 'none') {
+                            $pane.slideUp(CrmPowerPane.Constants.SlideTime);
+                        }
+                    }
+                }
+            });
+
+
             $("#entity-name").click(function () {
                 window.prompt("Entity Name:", Xrm.Page.data.entity.getEntityName());
             });
