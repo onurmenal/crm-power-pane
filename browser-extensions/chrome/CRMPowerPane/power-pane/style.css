@@ -49,13 +49,26 @@
 
     .crm-power-pane-subgroup span {
         display:inline-block;
-        padding:10px 10px 0px 10px;
+        padding:10px 10px 0px 32px;
         height:30px;
     }
 
     .crm-power-pane-subgroup span:hover {
-        background-color:#DFDFDF
+        background-color:#DFDFDF !important;
     }
+
+    .crm-power-pane-subgroup span.icon { background-position: 0px 8px !important; background-repeat: no-repeat !important; }
+    .crm-power-pane-subgroup span.entity-name-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/entity-name.png'); }
+    .crm-power-pane-subgroup span.record-id-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-id.png'); }
+    .crm-power-pane-subgroup span.record-url-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-url.png'); }
+    .crm-power-pane-subgroup span.record-properties-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-properties.png'); }
+    .crm-power-pane-subgroup span.go-to-record-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/go-to-record.png'); }
+    .crm-power-pane-subgroup span.enable-all-fields-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/enable-all-fields.png'); }
+    .crm-power-pane-subgroup span.show-all-fields-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/show-all-fields.png'); }
+    .crm-power-pane-subgroup span.disable-field-requirement-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/disable-field-requirement.png'); }
+    .crm-power-pane-subgroup span.schema-names-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/schema-names.png'); }
+    .crm-power-pane-subgroup span.schema-names-as-desc-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/schema-names-as-desc.png'); }
+    .crm-power-pane-subgroup span.refresh-form-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/refresh-form.png'); }
 
 #crm-power-pane-notification {
     position: absolute;

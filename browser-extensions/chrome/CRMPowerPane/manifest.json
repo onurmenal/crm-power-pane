@@ -42,5 +42,7 @@
     },
     "web_accessible_resources": [
         "power-pane/*",
-        "img/icon-24.png" ]
+        "img/icon-24.png",
+        "img/action-icons/*" 
+    ]
 }

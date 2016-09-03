@@ -64,7 +64,7 @@ $(function () {
             });
 
             $(window).blur(function () {
-                if (document.activeElement.id == 'contentIFrame0') {
+                if (document.activeElement.id.indexOf('contentIFrame') > -1) {
                     var $panes = $(".crm-power-pane-sections");
                     if ($panes.length) {
                         var $pane = $panes.first();

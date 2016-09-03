@@ -58,11 +58,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\icon-128.png" />
+    <Content Include="img\icon-24.png" />
     <Content Include="img\icon-32.png" />
     <Content Include="img\icon-48.png" />
     <Content Include="img\icon-64.png" />
     <Content Include="img\power-pane-button.png" />
     <Content Include="js\content.js" />
+    <Content Include="img\action-icons\disable-field-requirement.png" />
+    <Content Include="img\action-icons\enable-all-fields.png" />
+    <Content Include="img\action-icons\entity-name.png" />
+    <Content Include="img\action-icons\go-to-record.png" />
+    <Content Include="img\action-icons\record-id.png" />
+    <Content Include="img\action-icons\record-properties.png" />
+    <Content Include="img\action-icons\record-url.png" />
+    <Content Include="img\action-icons\refresh-form.png" />
+    <Content Include="img\action-icons\schema-names-as-desc.png" />
+    <Content Include="img\action-icons\schema-names.png" />
+    <Content Include="img\action-icons\show-all-fields.png" />
     <Content Include="power-pane\pane.html" />
     <Content Include="power-pane\script.js" />
     <Content Include="power-pane\style.css" />
