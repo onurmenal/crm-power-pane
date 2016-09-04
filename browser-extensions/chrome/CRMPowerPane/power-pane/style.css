@@ -49,15 +49,24 @@
 
     .crm-power-pane-subgroup span {
         display:inline-block;
-        padding:10px 10px 0px 32px;
-        height:30px;
+        padding:5px;
+        height:35px;
     }
 
     .crm-power-pane-subgroup span:hover {
         background-color:#DFDFDF !important;
     }
 
-    .crm-power-pane-subgroup span.icon { background-position: 0px 8px !important; background-repeat: no-repeat !important; }
+    .crm-power-pane-subgroup span.icon {
+        background-color: #001CA5!important;
+        background-position: 6px 6px!important;
+        background-repeat: no-repeat !important;
+        padding: 0px;
+        background-size: 20px!important;
+        width: 32px;
+        height: 32px;
+        vertical-align: middle;
+        margin-right: 5px;}
     .crm-power-pane-subgroup span.entity-name-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/entity-name.png'); }
     .crm-power-pane-subgroup span.record-id-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-id.png'); }
     .crm-power-pane-subgroup span.record-url-icon { background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-url.png'); }
