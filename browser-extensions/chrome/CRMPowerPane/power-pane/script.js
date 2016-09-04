@@ -56,7 +56,7 @@ $(function () {
                         var $popupBg = $("#crm-power-pane-popup-bg");
                         $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
 
-                        $("#crm-power-pane-popup-ok").click({ $popupList: $popupParameters, params: this.Parameters }, function (event) {
+                        $("#crm-power-pane-popup-ok").unbind().click({ $popupList: $popupParameters, params: this.Parameters }, function (event) {
                             $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
                             $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
 
