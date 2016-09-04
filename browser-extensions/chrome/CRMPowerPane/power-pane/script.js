@@ -18,6 +18,59 @@ $(function () {
                 CrmPowerPane.Constants.NotificationTimer = setTimeout(function () {
                     $notification.fadeOut(CrmPowerPane.Constants.SlideTime);
                 }, time);
+            },
+            Popups: {
+                BuildInputPopup: function (header, description, parameters, callback) {
+                    var popup = new CrmPowerPane.UI.Popups.InputPopup();
+                    parameters.forEach(function (p) {
+                        popup.AddParameter(p.label,p.name);
+                    });
+                    popup.Header = header;
+                    popup.Description = description;
+                    popup.RetreiveParameters(callback);
+                },
+                InputPopup: function () {
+                    this.Parameters = [],
+                    this.Header = null,
+                    this.Description = null,
+                    this.AddParameter = function (label, name) {
+                        this.Parameters[name] = {
+                            label: label,
+                            value: null
+                        }
+                    },
+                    this.RetreiveParameters = function (callback) {
+                        var $popup = $("#crm-power-pane-popup");
+                        $popup.find("h1").html(this.Header).toggle(this.Header != null);
+                        $popup.find("p").html(this.Description).toggle(this.Description != null);
+                        $popup.find("li").remove();
+                        $popupParameters = $popup.find("ul");
+
+                        for (var key in this.Parameters) {
+                            var p = this.Parameters[key];
+                            $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' name='" + key + "'/></li>");
+                        }
+
+                        $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
+                        $popup.find("input").first().focus();
+                        var $popupBg = $("#crm-power-pane-popup-bg");
+                        $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
+
+                        $("#crm-power-pane-popup-ok").click({ $popupList: $popupParameters, params: this.Parameters }, function (event) {
+                            $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
+                            $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
+
+                            var params = event.data.params;
+                            var $popupList = event.data.$popupList;
+
+                            for (var key in params) {
+                                var p = params[key];
+                                p.value = $popupList.find("input[name='" + key + "']").val();
+                            }
+                            callback(params);
+                        });
+                    }
+                }
             }
         },
         RegisterjQueryExtensions: function () {
@@ -98,7 +151,26 @@ $(function () {
             });
 
             $("#go-to-record").click(function () {
-                
+                CrmPowerPane.UI.Popups.BuildInputPopup(
+                    "Go to record",
+                    "Redirects you to specific record by id.",
+                    [
+                        {
+                            label: "Entity Schema Name",
+                            name: "entityname"
+                        },
+                        {
+                            label: "Record Id",
+                            name: "recordid"
+                        }
+                    ],
+                    function (params) {
+                        var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
+                        linkProps.push("?etn=" + params.entityname.value);
+                        linkProps.push("&id=" + params.recordid.value);
+                        linkProps.push("&pagetype=entityrecord");
+                        window.open(linkProps.join(""), '_blank');
+                    });
             });
 
             $("#enable-all-fields").click(function () {
@@ -179,7 +251,7 @@ $(function () {
                             } else prompt("Copying is not supported. Please copy it yourself. " + n, o)
                         })
                     });
-                    CrmPowerPane.UI.ShowNotification("Schema name mode is activated for descriptions. You can copy it with label click."); // ui message will change 
+                    CrmPowerPane.UI.ShowNotification("Schema name mode is activated for descriptions. You can copy it with label click."); // ui message will change
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("An error ocurred whilst activating schema name mode on descriptions.", "error");
                 }
@@ -191,6 +263,11 @@ $(function () {
 
             $(".crm-power-pane-subgroup").click(function () {
                 $(".crm-power-pane-sections").slideUp(CrmPowerPane.Constants.SlideTime);
+            });
+
+            $("#crm-power-pane-popup-cancel").click(function () {
+                $("#crm-power-pane-popup").fadeOut(CrmPowerPane.Constants.SlideTime);
+                $("#crm-power-pane-popup-bg").fadeOut(CrmPowerPane.Constants.SlideTime);
             });
         }
     };
