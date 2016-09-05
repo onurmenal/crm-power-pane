@@ -231,3 +231,18 @@
     float: right;
     margin-top: 35px;
 }
+
+.crm-power-pane-copy {
+    float: right;
+    padding-top: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+    .crm-power-pane-copied {
+        color:rgb(74, 148, 87);
+    }
+
+    .crm-power-pane-copy:hover {
+        color:rgb(74, 148, 87);
+    }

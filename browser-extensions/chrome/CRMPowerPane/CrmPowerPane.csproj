@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +76,7 @@
     <Content Include="img\action-icons\schema-names-as-desc.png" />
     <Content Include="img\action-icons\schema-names.png" />
     <Content Include="img\action-icons\show-all-fields.png" />
+    <Content Include="js\jquery-3.1.0.min.js" />
     <Content Include="power-pane\pane.html" />
     <Content Include="power-pane\script.js" />
     <Content Include="power-pane\style.css" />

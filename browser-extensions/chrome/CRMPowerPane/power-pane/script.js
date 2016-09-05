@@ -19,57 +19,96 @@ $(function () {
                     $notification.fadeOut(CrmPowerPane.Constants.SlideTime);
                 }, time);
             },
-            Popups: {
-                BuildInputPopup: function (header, description, parameters, callback) {
-                    var popup = new CrmPowerPane.UI.Popups.InputPopup();
-                    parameters.forEach(function (p) {
-                        popup.AddParameter(p.label,p.name);
-                    });
-                    popup.Header = header;
-                    popup.Description = description;
-                    popup.RetreiveParameters(callback);
+            BuildInputPopup: function (header, description, parameters, callback) {
+                var popup = new CrmPowerPane.UI.Popup();
+                parameters.forEach(function (p) {
+                    popup.AddParameter(p.label, p.name);
+                });
+                popup.Header = header;
+                popup.Description = description;
+                popup.RetreiveData(callback);
+            },
+            BuildOutputPopup: function (header, description, parameters, callback) {
+                var popup = new CrmPowerPane.UI.Popup();
+                parameters.forEach(function (p,i) {
+                    popup.AddParameter(p.label, i, p.value);
+                });
+                popup.Header = header;
+                popup.Description = description;
+                popup.ShowData(callback);
+            },
+            Popup: function () {
+                this.Parameters = [],
+                this.Header = null,
+                this.Description = null,
+                this.Initialize = function () {
+                    var $popup = $("#crm-power-pane-popup");
+                    $popup.find("h1").html(this.Header).toggle(this.Header != null);
+                    $popup.find("p").html(this.Description).toggle(this.Description != null);
+                    $popup.find("li").remove();
+                    return $popup;
                 },
-                InputPopup: function () {
-                    this.Parameters = [],
-                    this.Header = null,
-                    this.Description = null,
-                    this.AddParameter = function (label, name) {
-                        this.Parameters[name] = {
-                            label: label,
-                            value: null
-                        }
-                    },
-                    this.RetreiveParameters = function (callback) {
-                        var $popup = $("#crm-power-pane-popup");
-                        $popup.find("h1").html(this.Header).toggle(this.Header != null);
-                        $popup.find("p").html(this.Description).toggle(this.Description != null);
-                        $popup.find("li").remove();
-                        $popupParameters = $popup.find("ul");
+                this.AddParameter = function (label, name, value) {
+                    this.Parameters[name] = {
+                        label: label,
+                        value: value || null
+                    }
+                },
+                this.RetreiveData = function (callback) {
+                    var $popup = this.Initialize();
+                    $popupParameters = $popup.find("ul");
 
-                        for (var key in this.Parameters) {
-                            var p = this.Parameters[key];
-                            $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' name='" + key + "'/></li>");
-                        }
+                    for (var key in this.Parameters) {
+                        var p = this.Parameters[key];
+                        $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' name='" + key + "'/></li>");
+                    }
 
-                        $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
-                        $popup.find("input").first().focus();
-                        var $popupBg = $("#crm-power-pane-popup-bg");
-                        $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
+                    $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
+                    $popup.find("input").first().focus();
+                    var $popupBg = $("#crm-power-pane-popup-bg");
+                    $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
 
-                        $("#crm-power-pane-popup-ok").unbind().click({ $popupList: $popupParameters, params: this.Parameters }, function (event) {
+                    $("#crm-power-pane-popup-ok").unbind().click(
+                        {
+                            $popupList: $popupParameters,
+                            popupObj: this
+                        }, function (event) {
                             $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
                             $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
 
-                            var params = event.data.params;
+                            var popupObj = event.data.popupObj;
+                            var params = popupObj.Parameters;
                             var $popupList = event.data.$popupList;
 
                             for (var key in params) {
                                 var p = params[key];
                                 p.value = $popupList.find("input[name='" + key + "']").val();
                             }
-                            callback(params);
+                            callback(popupObj);
                         });
+                },
+                this.ShowData = function (callback) {
+                    var $popup = this.Initialize();
+                    $popupParameters = $popup.find("ul");
+
+                    for (var key in this.Parameters) {
+                        var p = this.Parameters[key];
+                        $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' value='" + p.value + "' name='" + key + "'/><span class='crm-power-pane-copy'>Copy it!</span></li>");
                     }
+
+                    $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
+                    $popup.find("input").first().focus();
+                    var $popupBg = $("#crm-power-pane-popup-bg");
+                    $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
+
+                    $("#crm-power-pane-popup-ok").unbind().click(
+                        {
+                            $popupList: $popupParameters,
+                            params: this.Parameters
+                        }, function (event) {
+                            $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
+                            $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
+                        });
                 }
             }
         },
@@ -129,11 +168,23 @@ $(function () {
             });
 
             $("#entity-name").click(function () {
-                window.prompt("Entity Name:", Xrm.Page.data.entity.getEntityName());
+                CrmPowerPane.UI.BuildOutputPopup(
+                    "Entity name",
+                    "Entity schema name of current record.",
+                    [{
+                        label: "Entity Name",
+                        value: Xrm.Page.data.entity.getEntityName()
+                    }]);
             });
 
             $("#record-id").click(function () {
-                window.prompt("Record Guid :", Xrm.Page.data.entity.getId());
+                CrmPowerPane.UI.BuildOutputPopup(
+                    "Record id",
+                    "Guid of current record.",
+                    [{
+                        label: "Entity Name",
+                        value: Xrm.Page.data.entity.getId()
+                    }]);
             });
 
             $("#record-url").click(function () {
@@ -141,7 +192,15 @@ $(function () {
                 params.push("?etn=" + Xrm.Page.data.entity.getEntityName());
                 params.push("&id=" + Xrm.Page.data.entity.getId());
                 params.push("&pagetype=entityrecord");
-                window.prompt("Record Url:", params.join(""));
+
+                CrmPowerPane.UI.BuildOutputPopup(
+                    "Record url",
+                    "Url of current record.",
+                    [{
+                        label: "Entity Name",
+                        value: params.join("")
+                    }]);
+
             });
 
             $("#record-properties").click(function () {
@@ -164,7 +223,8 @@ $(function () {
                             name: "recordid"
                         }
                     ],
-                    function (params) {
+                    function (popupObj) {
+                        var params = popupObj.Parameters;
                         var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
                         linkProps.push("?etn=" + params.entityname.value);
                         linkProps.push("&id=" + params.recordid.value);
@@ -263,6 +323,13 @@ $(function () {
 
             $(".crm-power-pane-subgroup").click(function () {
                 $(".crm-power-pane-sections").slideUp(CrmPowerPane.Constants.SlideTime);
+            });
+
+            $("#crm-power-pane").on("click", '.crm-power-pane-copy', function () {
+                $(".crm-power-pane-copy").removeClass("crm-power-pane-copied").html("Copy it!")
+                $input = $(this).parent().find("input").select();
+                document.execCommand("copy");
+                $(this).addClass("crm-power-pane-copied").html("Copied to clipboard!");
             });
 
             $("#crm-power-pane-popup-cancel").click(function () {
