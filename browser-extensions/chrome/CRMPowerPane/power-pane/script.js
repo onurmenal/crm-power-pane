@@ -210,7 +210,7 @@ $(function () {
             });
 
             $("#go-to-record").click(function () {
-                CrmPowerPane.UI.Popups.BuildInputPopup(
+                CrmPowerPane.UI.BuildInputPopup(
                     "Go to record",
                     "Redirects you to specific record by id.",
                     [
