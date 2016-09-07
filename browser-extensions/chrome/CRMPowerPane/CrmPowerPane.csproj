@@ -63,7 +63,6 @@
     <Content Include="img\icon-32.png" />
     <Content Include="img\icon-48.png" />
     <Content Include="img\icon-64.png" />
-    <Content Include="img\power-pane-button.png" />
     <Content Include="js\content.js" />
     <Content Include="img\action-icons\disable-field-requirement.png" />
     <Content Include="img\action-icons\enable-all-fields.png" />

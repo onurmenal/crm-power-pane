@@ -214,12 +214,16 @@
     }
 
 .crm-power-pane-button {
+    background : none;
     border: 1px solid #DDD;
     display: inline-block;
     min-width: 70px;
     padding: 3px 3px;
     cursor: pointer;
     margin-left: 5px;
+    font-family: Segoe\000020UI,Tahoma,Arial;
+    font-size: 11px;
+    height: 25px;
 }
 
     .crm-power-pane-button:hover {

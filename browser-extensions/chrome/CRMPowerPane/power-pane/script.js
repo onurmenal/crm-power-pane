@@ -168,69 +168,89 @@ $(function () {
             });
 
             $("#entity-name").click(function () {
-                CrmPowerPane.UI.BuildOutputPopup(
-                    "Entity name",
-                    "Entity schema name of current record.",
-                    [{
-                        label: "Entity Name",
-                        value: Xrm.Page.data.entity.getEntityName()
-                    }]);
+                try {
+                    CrmPowerPane.UI.BuildOutputPopup(
+                                    "Entity name",
+                                    "Entity schema name of current record.",
+                                    [{
+                                        label: "Entity Name",
+                                        value: Xrm.Page.data.entity.getEntityName()
+                                    }]);
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
             });
 
             $("#record-id").click(function () {
-                CrmPowerPane.UI.BuildOutputPopup(
-                    "Record id",
-                    "Guid of current record.",
-                    [{
-                        label: "Entity Name",
-                        value: Xrm.Page.data.entity.getId()
-                    }]);
+                try {
+                    CrmPowerPane.UI.BuildOutputPopup(
+                                    "Record id",
+                                    "Guid of current record.",
+                                    [{
+                                        label: "Entity Name",
+                                        value: Xrm.Page.data.entity.getId()
+                                    }]);
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
             });
 
             $("#record-url").click(function () {
-                var params = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
-                params.push("?etn=" + Xrm.Page.data.entity.getEntityName());
-                params.push("&id=" + Xrm.Page.data.entity.getId());
-                params.push("&pagetype=entityrecord");
+                try {
+                    var params = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
+                    params.push("?etn=" + Xrm.Page.data.entity.getEntityName());
+                    params.push("&id=" + Xrm.Page.data.entity.getId());
+                    params.push("&pagetype=entityrecord");
 
-                CrmPowerPane.UI.BuildOutputPopup(
-                    "Record url",
-                    "Url of current record.",
-                    [{
-                        label: "Entity Name",
-                        value: params.join("")
-                    }]);
+                    CrmPowerPane.UI.BuildOutputPopup(
+                        "Record url",
+                        "Url of current record.",
+                        [{
+                            label: "Entity Name",
+                            value: params.join("")
+                        }]);
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
 
             });
 
             $("#record-properties").click(function () {
-                var id = Xrm.Page.data.entity.getId();
-                var etc = Xrm.Page.context.getQueryStringParameters().etc;
-                Content.Mscrm.RibbonActions.openFormProperties(id, etc);
+                try {
+                    var id = Xrm.Page.data.entity.getId();
+                    var etc = Xrm.Page.context.getQueryStringParameters().etc;
+                    Content.Mscrm.RibbonActions.openFormProperties(id, etc);
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
             });
 
             $("#go-to-record").click(function () {
-                CrmPowerPane.UI.BuildInputPopup(
-                    "Go to record",
-                    "Redirects you to specific record by id.",
-                    [
-                        {
-                            label: "Entity Schema Name",
-                            name: "entityname"
-                        },
-                        {
-                            label: "Record Id",
-                            name: "recordid"
-                        }
-                    ],
-                    function (popupObj) {
-                        var params = popupObj.Parameters;
-                        var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
-                        linkProps.push("?etn=" + params.entityname.value);
-                        linkProps.push("&id=" + params.recordid.value);
-                        linkProps.push("&pagetype=entityrecord");
-                        window.open(linkProps.join(""), '_blank');
-                    });
+                try {
+                    CrmPowerPane.UI.BuildInputPopup(
+                                    "Go to record",
+                                    "Redirects you to specific record by id.",
+                                    [
+                                        {
+                                            label: "Entity Schema Name",
+                                            name: "entityname"
+                                        },
+                                        {
+                                            label: "Record Id",
+                                            name: "recordid"
+                                        }
+                                    ],
+                                    function (popupObj) {
+                                        var params = popupObj.Parameters;
+                                        var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
+                                        linkProps.push("?etn=" + params.entityname.value);
+                                        linkProps.push("&id=" + params.recordid.value);
+                                        linkProps.push("&pagetype=entityrecord");
+                                        window.open(linkProps.join(""), '_blank');
+                                    });
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting specific record.", "error");
+                }
             });
 
             $("#enable-all-fields").click(function () {
@@ -242,7 +262,7 @@ $(function () {
                     });
                     CrmPowerPane.UI.ShowNotification("All fields are enabled.");
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating disable status of all fields as false.", "error");
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
             });
 
@@ -255,7 +275,7 @@ $(function () {
                     });
                     CrmPowerPane.UI.ShowNotification("Visibility of all fields updated as visible.");
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating visibility  of all fields as visible.", "error");
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
             });
 
@@ -269,7 +289,7 @@ $(function () {
                     });
                     CrmPowerPane.UI.ShowNotification("Required level of all fields updated as none.");
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating required level of all fields as none.", "error");
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
             });
 
@@ -283,7 +303,7 @@ $(function () {
                     });
                     CrmPowerPane.UI.ShowNotification("All labels updated as schema name.");
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst updating label names as schema name.", "error");
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
             });
 
@@ -313,12 +333,16 @@ $(function () {
                     });
                     CrmPowerPane.UI.ShowNotification("Schema name mode is activated for descriptions. You can copy it with label click."); // ui message will change
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred whilst activating schema name mode on descriptions.", "error");
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
             });
 
             $("#refresh-form").click(function () {
-                Xrm.Page.data.refresh();
+                try {
+                    Xrm.Page.data.refresh();
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
             });
 
             $(".crm-power-pane-subgroup").click(function () {
