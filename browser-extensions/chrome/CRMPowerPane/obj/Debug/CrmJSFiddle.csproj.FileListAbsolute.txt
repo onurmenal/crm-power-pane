@@ -1,0 +1,6 @@
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\bin\CrmJSFiddle.dll.config
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\bin\CrmJSFiddle.dll
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\bin\CrmJSFiddle.pdb
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\obj\Debug\CrmJSFiddle.csprojResolveAssemblyReference.cache
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\obj\Debug\CrmJSFiddle.dll
+C:\Workspace\CrmJSFiddle\CrmJSFiddle\obj\Debug\CrmJSFiddle.pdb
