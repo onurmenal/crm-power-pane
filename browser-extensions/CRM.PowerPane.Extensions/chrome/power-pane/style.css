@@ -92,6 +92,10 @@
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/enable-all-fields.png');
         }
 
+        .crm-power-pane-subgroup span.show-optionset-values-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/optionset.png');
+        }
+
         .crm-power-pane-subgroup span.show-all-fields-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/show-all-fields.png');
         }

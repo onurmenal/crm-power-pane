@@ -8,7 +8,7 @@ $(function () {
         UI: {
             ShowNotification: function (message, type, time) {
                 window.clearTimeout(CrmPowerPane.Constants.NotificationTimer);
-                time = time || 4000;
+                time = time || 6000;
                 type = type || 'info';
                 var className = CrmPowerPane.Constants.NotificationClassPrefix + type;
                 var $notification = $("#crm-power-pane-notification");
@@ -338,6 +338,47 @@ $(function () {
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
+            });
+
+            $("#show-optionset-values").click(function () {
+                
+                Xrm.Page.ui.controls.forEach(function (control) {
+                    if (control.getControlType && control.getControlType() == "optionset") {
+                        var name = control.getName();
+                        var $selectBox = Content.$('select.ms-crm-SelectBox[attrname=' + name + ']');
+                        
+                        var $options = ($selectBox) ? $selectBox.find("option") : null;
+                        
+                        if ($options && $options.length > 0) {
+
+                            var changedOrReverted = null;
+
+                            for (var i = 0; i < $options.length; i++) {
+                                var $opt = $options[i];
+                                if ($opt.text != "" && $opt.value != "") {
+                                    var exp = "#"+$opt.value+"# ";
+                                    if ($opt.text.indexOf(exp) > -1) {
+                                        $opt.text = $opt.text.replace(exp, "");
+                                        $opt.title = $opt.title.replace(exp, "");
+                                        changedOrReverted = "reverted";
+                                    } else {
+                                        $opt.text = "#" + $opt.value + "# " + $opt.text;
+                                        $opt.title = "#" + $opt.value + "# " + $opt.title;
+                                        changedOrReverted = "changed";
+                                    }  
+                                }
+
+                                if (changedOrReverted == "changed") {
+                                    CrmPowerPane.UI.ShowNotification("Added value property to the option labels for all optionset. Like that <b>#value#</b>");
+                                } else if (changedOrReverted == "reverted") {
+                                    CrmPowerPane.UI.ShowNotification("Removed value property from the option labels for all optionset.", "error");
+                                }
+                                
+                            }
+                        }
+                    }
+                });
+
             });
 
             $(".crm-power-pane-subgroup").click(function () {

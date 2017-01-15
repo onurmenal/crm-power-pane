@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CRM.PowerPane.Extensions", "CRM.PowerPane.Extensions\", "{A2CCB5AA-0FC0-40A2-B8CE-06754CA9ED4C}"
 	ProjectSection(WebsiteProperties) = preProject
