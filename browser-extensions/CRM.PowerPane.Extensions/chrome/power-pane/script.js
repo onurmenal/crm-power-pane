@@ -170,7 +170,12 @@ $(function () {
                                     [{
                                         label: "Entity Name",
                                         value: Xrm.Page.data.entity.getEntityName()
-                                    }]);
+                                    },
+                                    {
+                                        label: "Entity Type Code",
+                                        value: Xrm.Page.context.getQueryStringParameters().etc
+                                    }
+                                    ]);
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
                 }
@@ -340,6 +345,15 @@ $(function () {
                 }
             });
 
+            $("#refresh-ribbon").click(function () {
+                try {
+                    Xrm.Page.ui.refreshRibbon();
+                    CrmPowerPane.UI.ShowNotification("Ribbon refreshing.");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("This action is not available on this page. Please make sure you are on the right page.", "warning");
+                }
+            });
+
             $("#show-optionset-values").click(function () {
                 
                 Xrm.Page.ui.controls.forEach(function (control) {
@@ -379,6 +393,33 @@ $(function () {
                     }
                 });
 
+            });
+
+            $("#crm-diagnostics").click(function () {
+                window.open(Content.Xrm.Page.context.getClientUrl() + "/tools/diagnostics/diag.aspx");
+            });
+
+            $("#mobile-express").click(function () {
+                window.open(Content.Xrm.Page.context.getClientUrl() + "/m");
+            });
+
+            $("#mobile-client").click(function () {
+                var url = Content.Xrm.Page.context.getClientUrl(); 
+                window.open(url + "/nga/main.htm?org=" + Content.Xrm.Page.context.getOrgUniqueName() + "&server=" + url); 
+            });
+
+            $("#performance-center").click(function () {
+                Mscrm.Performance.PerformanceCenter.get_instance().TogglePerformanceResultsVisibility();
+            });
+
+            $("#show-dirty-fields").click(function () {
+                Xrm.Page.ui.controls.forEach(function (control) {
+                    var attr = (control && control.getAttribute) ? control.getAttribute() : undefined;
+                    if (attr && attr.getIsDirty && attr.getIsDirty()) {
+                        Content.$("#" + control.getName()).css('background', '#FFFF00');
+                    }
+                });
+                CrmPowerPane.UI.ShowNotification("Dirty fields were highlighted.");
             });
 
             $(".crm-power-pane-subgroup").click(function () {
