@@ -5,7 +5,6 @@ The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamic
 There are two types of CRM Power Pane, the CRM Power Pane browser extension, and the CRM Power Pane managed solution.
 
 ## Usage
-
 Click the CRM Power Pane icon next to the `Microsoft Dynamics CRM` logo, and select your action.
 
 ### Actions
@@ -20,11 +19,11 @@ Changes all field labels to schema names on the form.
 ## CRM Power Pane Browser Extensions
 ### Google Chrome
 
-    https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc
+https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc
 
 ### Mozilla Firefox
 
-    https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/
+https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/
 
 ## CRM Power Pane Managed Solution
 
