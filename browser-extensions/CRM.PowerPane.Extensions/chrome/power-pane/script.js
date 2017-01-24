@@ -19,13 +19,15 @@ $(function () {
                     $notification.fadeOut(CrmPowerPane.Constants.SlideTime);
                 }, time);
             },
-            BuildInputPopup: function (header, description, parameters, callback) {
+            BuildInputPopup: function (header, description, parameters, callback, inlineTransition) {
+                inlineTransition = inlineTransition || false;
                 var popup = new CrmPowerPane.UI.Popup();
                 parameters.forEach(function (p) {
-                    popup.AddParameter(p.label, p.name);
+                    popup.AddParameter(p.label, p.name, p.defaultValue);
                 });
                 popup.Header = header;
                 popup.Description = description;
+                popup.InlineTransition = inlineTransition;
                 popup.RetreiveData(callback);
             },
             BuildOutputPopup: function (header, description, parameters, callback) {
@@ -41,6 +43,7 @@ $(function () {
                 this.Parameters = [],
                 this.Header = null,
                 this.Description = null,
+                this.InlineTransition = null,
                 this.Initialize = function () {
                     var $popup = $("#crm-power-pane-popup");
                     $popup.find("h1").html(this.Header).toggle(this.Header != null);
@@ -56,25 +59,29 @@ $(function () {
                 },
                 this.RetreiveData = function (callback) {
                     var $popup = this.Initialize();
+                    
                     $popupParameters = $popup.find("ul");
 
                     for (var key in this.Parameters) {
                         var p = this.Parameters[key];
-                        $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' name='" + key + "'/></li>");
+                        var defaultValue = p.value || "";
+                        $popupParameters.append("<li><span class='crm-power-pane-popup-input-text'>" + p.label + ":</span><input type='text' value ='" + defaultValue + "' name='" + key + "'/></li>");
                     }
 
                     $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
                     $popup.find("input").first().focus();
                     var $popupBg = $("#crm-power-pane-popup-bg");
                     $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
-
+                    var transition = this.InlineTransition;
                     $("#crm-power-pane-popup-ok").unbind().click(
                         {
                             $popupList: $popupParameters,
                             popupObj: this
                         }, function (event) {
-                            $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
-                            $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
+                            if (transition != true) {
+                                $popup.fadeOut(CrmPowerPane.Constants.SlideTime);
+                                $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
+                            }
 
                             var popupObj = event.data.popupObj;
                             var params = popupObj.Parameters;
@@ -93,7 +100,7 @@ $(function () {
 
                     for (var key in this.Parameters) {
                         var p = this.Parameters[key];
-                        $popupParameters.append("<li><span>" + p.label + ":</span><input type='text' value='" + p.value + "' name='" + key + "'/><span class='crm-power-pane-copy'>Copy it!</span></li>");
+                        $popupParameters.append("<li><span class='crm-power-pane-popup-input-text'>" + p.label + ":</span><input type='text' value='" + p.value + "' name='" + key + "'/><span class='crm-power-pane-copy'>Copy it!</span></li>");
                     }
 
                     $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
@@ -154,7 +161,11 @@ $(function () {
             });
 
             $("#crm-power-pane-button").click(function () {
-                $(".crm-power-pane-sections").slideToggle(CrmPowerPane.Constants.SlideTime).focus();
+                var $sections = $(".crm-power-pane-sections");
+
+                if (!$sections.is(":visible")) {
+                    $sections.slideToggle(CrmPowerPane.Constants.SlideTime).focus();
+                }
             });
 
             // Hide the pane if it is already open and the user clicked somewhere else.
@@ -165,7 +176,7 @@ $(function () {
             $("#entity-name").click(function () {
                 try {
                     CrmPowerPane.UI.BuildOutputPopup(
-                                    "Entity name",
+                                    "Entity info",
                                     "Entity schema name of current record.",
                                     [{
                                         label: "Entity Name",
@@ -187,7 +198,7 @@ $(function () {
                                     "Record id",
                                     "Guid of current record.",
                                     [{
-                                        label: "Entity Name",
+                                        label: "Record Id",
                                         value: Xrm.Page.data.entity.getId()
                                     }]);
                 } catch (e) {
@@ -206,7 +217,7 @@ $(function () {
                         "Record url",
                         "Url of current record.",
                         [{
-                            label: "Entity Name",
+                            label: "Record Url",
                             value: params.join("")
                         }]);
                 } catch (e) {
@@ -420,6 +431,122 @@ $(function () {
                     }
                 });
                 CrmPowerPane.UI.ShowNotification("Dirty fields were highlighted.");
+            });
+
+            $("#open-entity-editor").click(function () {
+                try {
+                    CrmPowerPane.UI.BuildInputPopup(
+                                    "Open entity editor",
+                                    "Opens entity editor according the specified entity.",
+                                    [
+                                        {
+                                            label: "Entity Schema Name",
+                                            name: "entityname",
+                                            defaultValue: (Xrm && Xrm.Page 
+                                                            && Xrm.Page.data 
+                                                            && Xrm.Page.data.entity 
+                                                            && Xrm.Page.data.entity.getEntityName) ? Xrm.Page.data.entity.getEntityName() : null
+                                        }
+                                    ],
+                                    function (popupObj) {
+                                        var params = popupObj.Parameters;
+                                        var entityTypeCode = Mscrm.EntityPropUtil.EntityTypeName2CodeMap[params.entityname.value];
+                                        Mscrm.RibbonActions.openEntityEditor(entityTypeCode)
+                                    });
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting entity editor.", "error");
+                }
+            });
+
+            $("#show-field-value").click(function () {
+                try {
+                    CrmPowerPane.UI.BuildInputPopup(
+                                    "Show Field Value",
+                                    "Shows the field value on the form.",
+                                    [
+                                        {
+                                            label: "Field Schema Name",
+                                            name: "fieldname",
+                                        }
+                                    ],
+                                    function (popupObj) {
+
+                                        var params = popupObj.Parameters;
+
+                                        if (params.fieldname.value) {
+                                            var control = Xrm.Page.getControl(params.fieldname.value);
+
+                                            if (control && control.getControlType) {
+
+                                                var controlType = control.getControlType();
+                                                var outputParams = null;
+
+                                                if (controlType == "optionset") {
+                                                   
+                                                    outputParams = [
+                                                        {
+                                                            label: "Selected Option Text",
+                                                            value: control.getAttribute().getText()
+                                                        },
+                                                        {
+                                                            label: "Selected Option Value",
+                                                            value: control.getAttribute().getValue()
+                                                        }
+                                                    ];
+
+                                                } else if (controlType == "lookup") {
+                                                    var controlValue = control.getAttribute().getValue();
+                                                    controlValue = (controlValue && controlValue.length > 0) ? controlValue[0] : null
+
+                                                    if (controlValue != null) {
+                                                        outputParams = [
+                                                            {
+                                                                label: "Name",
+                                                                value: controlValue.name
+                                                            },
+                                                            {
+                                                                label: "Id",
+                                                                value: controlValue.id
+                                                            },
+                                                            {
+                                                                label: "Entity Name",
+                                                                value: controlValue.entityType
+                                                            },
+                                                            {
+                                                                label: "Entity Type Code",
+                                                                value: controlValue.type
+                                                            }
+                                                        ]
+                                                    } else {
+                                                        outputParams = [
+                                                            {
+                                                                label: "Value",
+                                                                value: controlValue
+                                                            }
+                                                        ];
+                                                    }
+                                                } else if (controlType == "standard") {
+                                                    outputParams = [
+                                                        {
+                                                            label: "Value",
+                                                            value: control.getAttribute().getValue()
+                                                        }
+                                                    ];
+                                                } 
+                                            }
+                                        }
+                                        if (outputParams) {
+                                            popupObj.Description = "Control type of  <b>"+ control.getLabel() +"("+ popupObj.Parameters.fieldname.value +")</b> is " + controlType + ". The values like below."
+                                            popupObj.Parameters = outputParams;
+                                            popupObj.ShowData();
+                                        } else {
+                                            CrmPowerPane.UI.ShowNotification("Control type of your field is unrecognized.", "warning");
+                                        }
+                                    },
+                                    true);
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting entity editor.", "error");
+                }
             });
 
             $(".crm-power-pane-subgroup").click(function () {

@@ -140,6 +140,14 @@
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/dirty.png');
         }
 
+        .crm-power-pane-subgroup span.show-field-value-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/input.png');
+        }
+
+        .crm-power-pane-subgroup span.find-field-in-form-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/target.png');
+        }
+
         .new-tab {
             background: url('chrome-extension://__MSG_@@extension_id__/img/dirty.png');
             height:16px;
@@ -238,6 +246,10 @@
 
     #crm-power-pane-popup ul li span {
         display: block;
+    }
+
+    .crm-power-pane-popup-input-text{
+        margin-top:5px!important;
     }
 
     #crm-power-pane-popup ul li input {
