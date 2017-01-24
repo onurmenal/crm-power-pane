@@ -20,11 +20,11 @@ Changes all field labels to schema names on the form.
 ## CRM Power Pane Browser Extensions
 ### Google Chrome
 
-    // TODO: This is where the chrome web store link and instructions will be.
+    https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc
 
 ### Mozilla Firefox
 
-    // TODO: This is where the firefox store link and instructions will be.
+    https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/
 
 ## CRM Power Pane Managed Solution
 
