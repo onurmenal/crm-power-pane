@@ -1,3 +1,4 @@
+
 #crm-power-pane {
     font-family: Segoe\000020UI,Tahoma,Arial;
     font-size: 11px;
@@ -7,6 +8,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    clear:both;
 }
 
 .crm-power-pane-sections {
@@ -18,12 +20,13 @@
     padding: 10px 0px 10px 30px;
     font-size: 14px;
     box-shadow: 5px 5px 5px #CCC;
+    clear:both;
 }
 
 .crm-power-pane-section {
     list-style-type: none;
     float: left;
-    margin-right: 30px;
+    margin-right: 60px;
 }
 
 .crm-power-pane-header {
@@ -118,6 +121,8 @@
 
         .crm-power-pane-subgroup span.crm-diagnostics-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/crm-diagnostics.png');
+            background-size: 25px !important;
+            background-position: 3px 3px !important;
         }
 
         .crm-power-pane-subgroup span.mobile-icon {
@@ -148,12 +153,17 @@
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/target.png');
         }
 
-        .new-tab {
-            background: url('chrome-extension://__MSG_@@extension_id__/img/dirty.png');
-            height:16px;
-            width:16px;
-            border:1px solid red;
+        .crm-power-pane-subgroup span.clone-record {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/sheep.png');
+            background-size: 27px !important;
+            background-position: 2px 3px !important;
         }
+
+        .crm-power-pane-subgroup span.auto-fill {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/robot.png');
+        }
+
+
 
 #crm-power-pane-notification {
     position: absolute;
@@ -296,4 +306,60 @@
 
     .crm-power-pane-copy:hover {
         color:rgb(74, 148, 87);
+    }
+.power-pane-icon-test {
+    display:none;
+    background-color:#F0F0F0;
+    border:1px solid #DDD;
+    cursor:pointer;
+    width:100px;
+    height:100px;
+    position: Absolute;
+}
+
+    .power-pane-icon-test :hover {
+        display:block;
+    }
+
+
+#crm-power-pane-notes {
+    font-size:11px;
+    clear:both;
+    float:right;
+    margin-right:40px
+}
+
+#crm-power-pane-note {
+    color:#777;
+    clear:both;
+}
+
+
+#crm-power-pane-github {
+    display: block;
+    vertical-align: sub;
+    width: auto;
+    height: auto;
+    padding: 3px;
+    float: right;
+    clear: both;
+    font-size: 11px;
+    clear: both;
+    float: right;
+    margin-right: 40px;
+    vertical-align:sub;
+}
+
+
+
+    #crm-power-pane-github span {
+        background: url('chrome-extension://__MSG_@@extension_id__/img/github.png');
+        background-size: 22px 22px;
+        width: 22px;
+        height: 22px;
+        display: block;
+        float: left;
+        vertical-align: sub;
+        margin-top: -4px;
+        margin-right: 3px;
     }
