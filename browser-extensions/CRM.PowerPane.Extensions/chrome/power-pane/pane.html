@@ -1,46 +1,62 @@
-﻿<script src="../js/jquery-3.1.0.min.js"></script>
-<script src="script.js"></script>
-<link href="style.css" rel="stylesheet" />
-<div id="crm-power-pane">
-    <div class="crm-power-pane-sections" tabindex="9999">
-        <ul class="crm-power-pane-section" id="record-actions">
-            <li class="crm-power-pane-header">Record Actions</li>
-            <li class="crm-power-pane-subgroup" id="entity-name"><span><span class="icon entity-name-icon"></span>Entity Name</span></li>
-            <li class="crm-power-pane-subgroup" id="record-id"><span><span class="icon record-id-icon"></span>Record Id</span></li>
-            <li class="crm-power-pane-subgroup" id="record-url"><span><span class="icon record-url-icon"></span>Record Url</span></li>
-            <li class="crm-power-pane-subgroup" id="record-properties"><span><span class="icon record-properties-icon"></span>Record Properties</span></li>
-            <li class="crm-power-pane-subgroup" id="go-to-record"><span><span class="icon go-to-record-icon"></span>Go to Record by Id</span></li>
-        </ul>
+﻿<div id="crm-power-pane">
+   <div class="crm-power-pane-sections" tabindex="9999">
+       <a id="crm-power-pane-github" target="_blank" href="https://github.com/onurmenal/crm-power-pane/issues"> <span></span> Report Issue</a>
+           <ul class="crm-power-pane-section" id="record-actions">
+               <li class="crm-power-pane-header">Record Actions</li>
 
-        <ul class="crm-power-pane-section" id="form-actions">
-            <li class="crm-power-pane-header">Form Actions</li>
-            <li class="crm-power-pane-subgroup" id="enable-all-fields"><span><span class="icon enable-all-fields-icon"></span>Enable All Fields</span></li>
-            <li class="crm-power-pane-subgroup" id="show-all-fields"><span><span class="icon show-all-fields-icon"></span>Show Hidden Fields</span></li>
-            <li class="crm-power-pane-subgroup" id="disable-field-requirement"><span><span class="icon disable-field-requirement-icon"></span>Disable Field Requirement</span></li>
-            <li class="crm-power-pane-subgroup" id="schema-names"><span><span class="icon schema-names-icon"></span>Schema Names as Label</span></li>
-            <li class="crm-power-pane-subgroup" id="schema-names-as-desc"><span><span class="icon schema-names-as-desc-icon"></span>Schema Names as Description</span></li>
-            <li class="crm-power-pane-subgroup" id="refresh-form"><span><span class="icon refresh-form-icon"></span>Refresh Form</span></li>
-        </ul>
-    </div>
+               <li class="crm-power-pane-subgroup" id="entity-name"><span><span class="icon entity-name-icon"></span>Entity Info</span></li>
+               <li class="crm-power-pane-subgroup" id="record-id"><span><span class="icon record-id-icon"></span>Record Id</span></li>
+               <li class="crm-power-pane-subgroup" id="record-url"><span><span class="icon record-url-icon"></span>Record Url</span></li>
+               <li class="crm-power-pane-subgroup" id="clone-record"><span><span class="icon clone-record"></span>Clone Record</span></li>
+               <li class="crm-power-pane-subgroup" id="record-properties"><span><span class="icon record-properties-icon"></span>Record Properties</span></li>
 
-    <div id="crm-power-pane-popup-bg"></div>
-    <div id="crm-power-pane-popup">
-        <h1>Header</h1>
-        <p>description</p>
-        <ul>
-        </ul>
-        <div style="clear:both"></div>
-        <div id="crm-power-pane-button-container">
-            <button class="crm-power-pane-button" id="crm-power-pane-popup-ok">OK</button>
-            <button class="crm-power-pane-button" id="crm-power-pane-popup-cancel">Cancel</button>
-        </div>
-    </div>
+           </ul>
+           <ul class="crm-power-pane-section" id="form-actions" style="margin-right:10px!important">
+               <li class="crm-power-pane-header">Form Actions</li>
+               <li class="crm-power-pane-subgroup" id="enable-all-fields"><span><span class="icon enable-all-fields-icon"></span>Enable All Fields</span></li>
+               <li class="crm-power-pane-subgroup" id="show-all-fields"><span><span class="icon show-all-fields-icon"></span>Show Hidden Fields</span></li>
+               <li class="crm-power-pane-subgroup" id="disable-field-requirement"><span><span class="icon disable-field-requirement-icon"></span>Disable Field Requirement</span></li>
+               <li class="crm-power-pane-subgroup" id="schema-names"><span><span class="icon schema-names-icon"></span>Schema Names as Label</span></li>
+               <li class="crm-power-pane-subgroup" id="schema-names-as-desc"><span><span class="icon schema-names-as-desc-icon"></span>Scheme Name Copy Mode</span></li>
+               <li class="crm-power-pane-subgroup" id="show-optionset-values"><span><span class="icon show-optionset-values-icon"></span>Show Optionset Values</span></li>
+           </ul>
+           <ul class="crm-power-pane-section" style="">
+               <li class="crm-power-pane-header"> </li>
+               <li class="crm-power-pane-subgroup" id="show-field-value"><span><span class="icon show-field-value-icon"></span>Show Field Value</span></li>
+               <li class="crm-power-pane-subgroup" id="find-field-in-form"><span><span class="icon find-field-in-form-icon"></span>Find Field In Form</span></li>
+               <li class="crm-power-pane-subgroup" id="show-dirty-fields"><span><span class="icon show-dirty-fields-icon"></span>Highlight Dirty Fields</span></li>
+               <li class="crm-power-pane-subgroup" id="show-auto-fill"><span><span class="icon auto-fill"></span>Form Auto Fill</span></li>
+               <li class="crm-power-pane-subgroup" id="refresh-ribbon"><span><span class="icon refresh-ribbon-icon"></span>Refresh Ribbon</span></li>
+               <li class="crm-power-pane-subgroup" id="refresh-form"><span><span class="icon refresh-form-icon"></span>Refresh Form</span></li>
+           </ul>
+           <ul class="crm-power-pane-section" id="form-actions">
+               <li class="crm-power-pane-header">Navigations</li>
+               <li class="crm-power-pane-subgroup" id="go-to-record"><span><span class="icon go-to-record-icon"></span>Go to Record by Id</span></li>
+               <li class="crm-power-pane-subgroup" id="open-entity-editor"><span><span class="icon entity-editor-icon"></span>Entity Editor</span></li>
+               <li class="crm-power-pane-subgroup" id="crm-diagnostics"><span><span class="icon crm-diagnostics-icon"></span>Crm Diagnostics</span></li>
+               <li class="crm-power-pane-subgroup" id="performance-center"><span><span class="icon performance-center-icon"></span>Performance Center</span></li>
+               <li class="crm-power-pane-subgroup" id="mobile-express"><span><span class="icon mobile-icon"></span>Mobile Express</span></li>
+               <li class="crm-power-pane-subgroup" id="mobile-client"><span><span class="icon mobile-icon"></span>Mobile Client</span></li>
 
-    <div id="crm-power-pane-notification">
-        <span></span>
-    </div>
-
-    <div style="clear:both"></div>
-
+           </ul>
+           <div id="crm-power-pane-notes" style="clear:both">
+               <div id="crm-power-pane-note">Dynamics CRM Power Pane is not recommended for end-users which is developed for developers, testers and power users.</div>
+           </div>
+       </div>
+   <div id="crm-power-pane-popup-bg"></div>
+   <div id="crm-power-pane-popup">
+      <h1>Header</h1>
+      <p>description</p>
+      <ul>
+      </ul>
+      <div style="clear:both"></div>
+      <div id="crm-power-pane-button-container">
+         <button class="crm-power-pane-button" id="crm-power-pane-popup-ok">OK</button>
+         <button class="crm-power-pane-button" id="crm-power-pane-popup-cancel">Cancel</button>
+      </div>
+   </div>
+   <div id="crm-power-pane-notification">
+      <span></span>
+   </div>
+   <div style="clear:both"></div>
 </div>
-
