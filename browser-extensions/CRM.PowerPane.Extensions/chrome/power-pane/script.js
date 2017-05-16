@@ -178,7 +178,7 @@ $(function () {
 
             // Hide the pane if it is already open and the user clicked somewhere else.
             $(".crm-power-pane-sections").bind("focusout", function () {
-                $(this).slideUp(CrmPowerPane.Constants.SlideTime);
+                $(this).delay(80).slideUp(CrmPowerPane.Constants.SlideTime);
             });
 
             $("#entity-name").click(function () {

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Dynamics CRM Power Pane",
   "short_name": "Dynamics CRM Power Pane",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamics CRM application and allow you to manipulate forms.",
   "browser_action": {
     "default_icon": "img/icon-48.png",
