@@ -163,6 +163,9 @@
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/robot.png');
         }
 
+        .crm-power-pane-subgroup span.create-form {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/create.png');
+        }
 
 
 #crm-power-pane-notification {
