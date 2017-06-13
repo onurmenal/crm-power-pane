@@ -178,7 +178,7 @@ $(function () {
 
             // Hide the pane if it is already open and the user clicked somewhere else.
             $(".crm-power-pane-sections").bind("focusout", function () {
-                $(this).delay(80).slideUp(CrmPowerPane.Constants.SlideTime);
+                $(this).delay(100).slideUp(CrmPowerPane.Constants.SlideTime);
             });
 
             $("#entity-name").click(function () {
@@ -283,6 +283,7 @@ $(function () {
                             c.setDisabled(false);
                         } catch (e) { }
                     });
+                    
                     CrmPowerPane.UI.ShowNotification("All fields are enabled.");
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
@@ -296,6 +297,29 @@ $(function () {
                             c.setVisible(true);
                         } catch (e) { }
                     });
+
+                    Xrm.Page.ui.tabs.getAll().forEach(function (t) {
+                        try {
+                            if (t.setVisible) {
+                                t.setVisible(true);
+                            }
+
+                            if (t.sections && t.sections.getAll) {
+                                t.sections.getAll().forEach(function (s) {
+                                    try {
+                                        if (s && s.setVisible) {
+                                            s.setVisible(true);
+                                        }
+                                    } catch (e) {
+
+                                    }
+                                });
+                            }
+                        } catch (e) {
+
+                        }
+                    });
+
                     CrmPowerPane.UI.ShowNotification("Visibility of all fields updated as visible.");
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
@@ -480,7 +504,7 @@ $(function () {
                                     "Opens entity editor according the specified entity.",
                                     [
                                         {
-                                            label: "Entity Schema Name",
+                                            label: "Entity Schema Name (optional)",
                                             name: "entityname",
                                             defaultValue: (Xrm && Xrm.Page 
                                                             && Xrm.Page.data 
@@ -644,37 +668,48 @@ $(function () {
             });
 
             $("#clone-record").click(function () {
-                var excludedFields = ["createdon", "createdby", "modifiedon", "modifiedby"];
-                var collectedFields = [];
+                try {
+                    var excludedFields = ["createdon", "createdby", "modifiedon", "modifiedby", "ownerid","vrp_numberofchildincidents"];
+                    var collectedFields = [];
 
-                Xrm.Page.data.entity.attributes.forEach(function (a) {
-                    var name = a.getName();
-                    var value = a.getValue();
+                    Xrm.Page.data.entity.attributes.forEach(function (a) {
+                        var name = a.getName();
+                        var value = a.getValue();
 
-                    if (excludedFields.indexOf(name) > -1)
-                        return;
+                        if (!value)
+                            return;
 
-                    switch (a.getAttributeType()) {
-                        case "lookup":
-                            collectedFields.push(name + 'name=' + value[0].name);
-                            collectedFields.push(name + 'type=' + value[0].entityType);
-                            collectedFields.push(name + '=' + value[0].id);
-                            break;
-                        case "datetime":
-                            collectedFields.push(name + '=' + value.ToDateString());
-                            break;
-                        default:
-                            collectedFields.push(name + '=' + value);
-                            break;
-                    }
-                });
+                        if (excludedFields.indexOf(name) > -1)
+                            return;
 
-                var createUrl = Xrm.Page.context.getClientUrl()
-                + '/main.aspx?etn=' + Xrm.Page.data.entity.getEntityName()
-                + '&pagetype=entityrecord'
-                + '&extraqs=?' + encodeURIComponent(collectedFields.join('&'));
+                        switch (a.getAttributeType()) {
+                            case "lookup":
+                                if (a.getLookupTypes()) {
+                                    collectedFields.push(name + '=' + value[0].id);
+                                    collectedFields.push(name + 'name=' + value[0].name);
 
-                window.open(createUrl, '_blank', "location=no,menubar=no,status=no,toolbar=no", false);
+                                    if (a.getLookupTypes().length > 1)
+                                        collectedFields.push(name + 'type=' + value[0].entityType);
+                                }
+                                break;
+                            case "datetime":
+                                collectedFields.push(name + '=' + value.toLocaleDateString());
+                                break;
+                            default:
+                                collectedFields.push(name + '=' + value);
+                                break;
+                        }
+                    });
+
+                    var createUrl = Xrm.Page.context.getClientUrl()
+                        + '/main.aspx?etn=' + Xrm.Page.data.entity.getEntityName()
+                        + '&pagetype=entityrecord'
+                        + '&extraqs=?' + encodeURIComponent(collectedFields.join('&'));
+
+                    window.open(createUrl, '_blank', "location=no,menubar=no,status=no,toolbar=no", false);
+                } catch (e) {
+                    CrmPowerPane.Errors.WrongPageWarning();
+                }
 
             });
 
