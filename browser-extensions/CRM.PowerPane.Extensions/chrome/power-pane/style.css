@@ -1,3 +1,9 @@
+.lookup-link {
+    background: url('chrome-extension://__MSG_@@extension_id__/img/lookup-link.png');
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+}
 
 #crm-power-pane {
     font-family: Segoe\000020UI,Tahoma,Arial;
@@ -117,6 +123,10 @@
 
         .crm-power-pane-subgroup span.refresh-form-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/refresh-form.png');
+        }
+
+        .crm-power-pane-subgroup span.toggle-lookup-links-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/toggle-lookup-links.png');
         }
 
         .crm-power-pane-subgroup span.crm-diagnostics-icon {

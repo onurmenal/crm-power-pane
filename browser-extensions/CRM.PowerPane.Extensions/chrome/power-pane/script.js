@@ -412,6 +412,28 @@ $(function () {
                 }
             });
 
+            $("#toggle-lookup-links").click(function () {
+                if (Content.$(".lookup-link").length !== 0) {
+                    Content.$(".lookup-link").remove();
+                    return;
+                }
+                Xrm.Page.ui.controls.forEach(function (control) {
+                    try {
+                        if (control.getControlType() === 'lookup') {
+                            var linkId = control.getName() + "-lookup-link";
+                            Content.$("#" + control.getName()).parent().after("<div class='lookup-link' id='" + linkId + "'></div>");
+                            Content.$("#" + linkId).click(function () {
+                                try {
+                                    var attribute = control.getAttribute().getValue()[0];
+                                    var url = Xrm.Page.context.getClientUrl() + "/main.aspx?etn=" + attribute.entityType + "&id=" + attribute.id + "&pagetype=entityrecord";
+                                    window.open(url);
+                                } catch (e) { }
+                            });
+                        }
+                    } catch (e) { }
+                });
+            });
+
             $("#refresh-ribbon").click(function () {
                 try {
                     Xrm.Page.ui.refreshRibbon();
