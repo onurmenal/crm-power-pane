@@ -1,0 +1,23 @@
+body {
+    font-family: Segoe\000020UI,Tahoma,Arial;
+    font-size: 11px;
+}
+    body h2 {
+        font-size: 18px;
+        color: rgb(17, 96, 183);
+    }
+    
+    body h3 {
+        font-size: 16px;
+        color: rgb(17, 96, 183);
+    }
+
+    body label {
+        display: block;
+        font-size: 14px;
+        padding: 3px;
+    }
+
+    body button {
+        margin: 5px;
+    }

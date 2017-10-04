@@ -39,6 +39,8 @@
                         mainBody[0].appendChild(cssRef);
                         mainBody[0].appendChild(scriptTag);
                         mainBody[0].appendChild(inject);
+
+                        applyUserOptions();
                     }
                     else if (xmlHttp.status == 400) {
                         alert('There was an error 400');
@@ -51,5 +53,18 @@
 
             xmlHttp.send();
         }
+    }
+
+    function applyUserOptions() {
+        // Show/hide menu items
+        chrome.storage.sync.get(null, function(settings) {
+            for (var setting in settings) {
+                if (!settings.hasOwnProperty(setting)) continue;
+                if (settings[setting])
+                    document.getElementById(setting).style.display = "inherit"
+                else 
+                    document.getElementById(setting).style.display = "none"
+            }
+        });
     }
 })();
