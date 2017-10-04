@@ -100,7 +100,17 @@ $(function () {
 
                     for (var key in this.Parameters) {
                         var p = this.Parameters[key];
-                        $popupParameters.append("<li><span class='crm-power-pane-popup-input-text'>" + p.label + ":</span><input type='text' value='" + p.value + "' name='" + key + "'/><span class='crm-power-pane-copy'>Copy it!</span></li>");
+                        if (Array.isArray(p.value)) {
+                            var li = "<li><span class='crm-power-pane-popup-input-text'>" + p.label + ":</span>";
+                            p.value.forEach(function(item) {
+                                var url = Xrm.Page.context.getClientUrl() + "/main.aspx?etn=" + item.entityType + "&id=" + item.id + "&pagetype=entityrecord";
+                                li += "<li><a href='#' onclick='window.open(\"" + url +"\")'>" + item.name + "</a></li>"
+                            });
+                            li += "</li>";
+                            $popupParameters.append(li);                        
+                        } else {
+                            $popupParameters.append("<li><span class='crm-power-pane-popup-input-text'>" + p.label + ":</span><input type='text' value='" + p.value + "' name='" + key + "'/><span class='crm-power-pane-copy'>Copy it!</span></li>");
+                        }
                     }
 
                     $popup.fadeIn(CrmPowerPane.Constants.SlideTime);
@@ -273,6 +283,68 @@ $(function () {
                                     });
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting specific record.", "error");
+                }
+            });
+
+            $("#user-info").click(function () {
+                try {
+                    function getUserRoles() {
+                        var userId = Xrm.Page.context.getUserId();
+                        var serverUrl = "/" + Xrm.Page.context.getOrgUniqueName();
+                        var query = serverUrl + "/XRMServices/2011/OrganizationData.svc/SystemUserSet?$select=systemuserroles_association/Name,systemuserroles_association/RoleId&$expand=systemuserroles_association&$filter=SystemUserId eq guid'" + userId + "'";
+                        var service = new XMLHttpRequest();
+                        service.open("GET", query, false);
+                        service.setRequestHeader("X-Requested-Width", "XMLHttpRequest");
+                        service.setRequestHeader("Accept", "application/json, text/javascript, */*");
+                        service.send(null);
+                        var requestResults = eval('(' + service.responseText + ')').d;
+                        var results = requestResults.results[0].systemuserroles_association.results;
+                        return results.map(function(r) { return {
+                            name: r.Name, 
+                            id: r.RoleId,
+                            entityType: "role"
+                        }})
+                    }                   
+                    function getUserTeams() {
+                        var userId = Xrm.Page.context.getUserId();
+                        var serverUrl = "/" + Xrm.Page.context.getOrgUniqueName();
+                        var query = serverUrl + "/XRMServices/2011/OrganizationData.svc/SystemUserSet?$select=teammembership_association/Name,teammembership_association/TeamId&$expand=teammembership_association&$filter=SystemUserId eq guid'" + userId + "'";
+                        var service = new XMLHttpRequest();
+                        service.open("GET", query, false);
+                        service.setRequestHeader("X-Requested-Width", "XMLHttpRequest");
+                        service.setRequestHeader("Accept", "application/json, text/javascript, */*");
+                        service.send(null);
+                        var requestResults = eval('(' + service.responseText + ')').d;
+                        var results = requestResults.results[0].teammembership_association.results;
+                        return results.map(function(t) { return {
+                            name: t.Name, 
+                            id: t.TeamId,
+                            entityType: "team"
+                        }})
+                    }
+
+                    CrmPowerPane.UI.BuildOutputPopup(
+                                    "User Info",
+                                    "Current user information",
+                                    [{
+                                        label: "User name",
+                                        value: Xrm.Page.context.getUserName()
+                                    },
+                                    {
+                                        label: "User id",
+                                        value: Xrm.Page.context.getUserId()
+                                    }, 
+                                    {
+                                        label: "User Roles",
+                                        value: getUserRoles()
+                                    }, 
+                                    {
+                                        label: "User Teams",
+                                        value: getUserTeams()
+                                    }
+                                    ]);
+                } catch (e) {
+                    CrmPowerPane.Errors.WrongPageWarning();
                 }
             });
 

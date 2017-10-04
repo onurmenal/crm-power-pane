@@ -3,6 +3,22 @@
     background-size: 16px;
     width: 16px;
     height: 16px;
+    cursor: pointer;
+}
+
+#crm-power-pane-popup a:link, a:visited {
+    background-color: white;
+    color: black;
+    border: rgb(17, 96, 183);
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#crm-power-pane-popup a:hover, a:active {
+    background-color: rgb(17, 96, 183);
+    color: white;
 }
 
 #crm-power-pane {
@@ -91,6 +107,10 @@
 
         .crm-power-pane-subgroup span.record-properties-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/record-properties.png');
+        }
+
+        .crm-power-pane-subgroup span.user-info-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/user-info.png');
         }
 
         .crm-power-pane-subgroup span.go-to-record-icon {
