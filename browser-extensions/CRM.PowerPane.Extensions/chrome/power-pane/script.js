@@ -263,7 +263,7 @@ $(function () {
                                         var params = popupObj.Parameters;
                                         if (params.entityname.value && params.recordid.value) {
                                             var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
-                                            linkProps.push("?etn=" + params.entityname.value);
+                                            linkProps.push("?etn=" + params.entityname.value.toLowerCase());
                                             linkProps.push("&id=" + params.recordid.value);
                                             linkProps.push("&pagetype=entityrecord");
                                             window.open(linkProps.join(""), '_blank');
