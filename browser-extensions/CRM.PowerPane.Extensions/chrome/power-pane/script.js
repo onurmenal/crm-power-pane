@@ -132,6 +132,54 @@ $(function () {
                 alert("hi");
             }
         },
+        ServiceOperations: {
+            ExecuteQuery: function (query, isAsync, successCallback, errorCallback) {
+                var req = new XMLHttpRequest();
+                req.open("GET", Xrm.Page.context.getClientUrl() + "/api/data/v8.2/" + query, isAsync);
+                req.setRequestHeader("Accept", "application/json");
+                req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                req.setRequestHeader("OData-MaxVersion", "4.0");
+                req.setRequestHeader("OData-Version", "4.0");
+                req.setRequestHeader("Prefer", "odata.include-annotations=*");
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        req.onreadystatechange = null;
+                        if (this.status == 200) {
+                            var data = JSON.parse(this.response);
+                            if (data != null && data.value != null && successCallback) {
+                                successCallback(data);
+                            }
+                        } else {
+                            if (errorCallback)
+                                errorCallback(JSON.parse(this.response).error);
+                        }
+                    }
+                };
+                req.send();
+            },
+            RetrieveEntities: function () {
+                CrmPowerPane.ServiceOperations.ExecuteQuery(
+                    "EntityDefinitions?$select=LogicalName,ObjectTypeCode,DisplayName&$filter=IsValidForAdvancedFind eq true",
+                    true,
+                    function (data) {
+                        console.log(data.value);
+                    },
+                    function (error) {
+
+                    });
+            },
+            RetrieveEntityMetadata: function (entityMetadataId) {
+                CrmPowerPane.ServiceOperations.ExecuteQuery(
+                    "EntityDefinitions(" + entityMetadataId + ")?$select=LogicalName&$expand=Attributes($select=LogicalName,DisplayName)",
+                    true,
+                    function (data) {
+                        console.log(data.value);
+                    },
+                    function (error) {
+
+                    });
+            },
+        },
         RegisterjQueryExtensions: function () {
             $.fn.bindFirst = function (name, fn) {
                 this.on(name, fn);
@@ -823,11 +871,15 @@ $(function () {
                 $("#crm-power-pane-popup-bg").fadeOut(CrmPowerPane.Constants.SlideTime);
             });
 
-            
+            $("#metadata-search").click(function () {
+                var result = CrmPowerPane.ServiceOperations.RetrieveEntities();
+                console.log(result);
+            });
 
 
         }
     };
     CrmPowerPane.RegisterjQueryExtensions();
     CrmPowerPane.RegisterEvents();
+    console.log(CrmPowerPane.ServiceOperations.RetrieveEntities());
 });
