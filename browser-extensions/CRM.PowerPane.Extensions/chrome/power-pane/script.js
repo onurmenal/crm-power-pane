@@ -1,3 +1,4 @@
+/// <reference path="XrmServiceToolkit.js" />
 $(function () {
     var CrmPowerPane = {
         Constants: {
@@ -127,9 +128,6 @@ $(function () {
                             $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
                         });
                 }
-            },
-            ContextMenu: function () {
-                alert("hi");
             }
         },
         ServiceOperations: {
@@ -338,7 +336,7 @@ $(function () {
                 try {
                     function getUserRoles() {
                         var userId = Xrm.Page.context.getUserId();
-                        var serverUrl = "/" + Xrm.Page.context.getOrgUniqueName();
+                        var serverUrl = Xrm.Page.context.getClientUrl();
                         var query = serverUrl + "/XRMServices/2011/OrganizationData.svc/SystemUserSet?$select=systemuserroles_association/Name,systemuserroles_association/RoleId&$expand=systemuserroles_association&$filter=SystemUserId eq guid'" + userId + "'";
                         var service = new XMLHttpRequest();
                         service.open("GET", query, false);
@@ -355,7 +353,7 @@ $(function () {
                     }                   
                     function getUserTeams() {
                         var userId = Xrm.Page.context.getUserId();
-                        var serverUrl = "/" + Xrm.Page.context.getOrgUniqueName();
+                        var serverUrl = Xrm.Page.context.getClientUrl();
                         var query = serverUrl + "/XRMServices/2011/OrganizationData.svc/SystemUserSet?$select=teammembership_association/Name,teammembership_association/TeamId&$expand=teammembership_association&$filter=SystemUserId eq guid'" + userId + "'";
                         var service = new XMLHttpRequest();
                         service.open("GET", query, false);
@@ -871,15 +869,56 @@ $(function () {
                 $("#crm-power-pane-popup-bg").fadeOut(CrmPowerPane.Constants.SlideTime);
             });
 
-            $("#metadata-search").click(function () {
-                var result = CrmPowerPane.ServiceOperations.RetrieveEntities();
-                console.log(result);
+            $("#fetch-xml").click(function () {
+                var $popupBg = $("#crm-power-pane-popup-bg");
+                $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
+                var $fetchPopup = $("#crm-power-pane-fetchxml-popup");
+                $fetchPopup.fadeIn(CrmPowerPane.Constants.SlideTime);
+
+                var activeTabClass = "dynamics-crm-power-pane-active-tab";
+
+                $("#crm-power-pane-fetchxml-popup-container ul li").removeClass(activeTabClass).first().addClass(activeTabClass);
+                $(".crm-power-pane-fetchxml-tab").hide().first().show();
+                
             });
 
+            $("#crm-power-pane-fetchxml-popup-container ul li").click(function () {
+                var activeClass = "dynamics-crm-power-pane-active-tab";
+                $("#crm-power-pane-fetchxml-popup-container ul li").removeClass(activeClass);
+                $(this).addClass(activeClass);
+                $tabs = $(".crm-power-pane-fetchxml-tab");
+                $tabs.hide();
+                $tabs.eq($(this).index()).show();
+            });
 
+            $("#crm-power-pane-popup-cancel-fetch").click(function () {
+                $("#crm-power-pane-fetchxml-popup").fadeOut(250);
+                $("#crm-power-pane-popup-bg").fadeOut(250);
+            });
+
+            $("#crm-power-pane-popup-ok-fetch").click(function () {
+                var $resultArea = $("#crm-power-pane-fetchxml-result-area");
+                $resultArea.val("");
+
+                var xml = $("#crm-power-pane-tab1 textarea").val();
+
+                if (xml && xml != "") {
+                    var result = XrmServiceToolkit.Soap.Fetch(xml);
+                    var $resultArea = $("#crm-power-pane-fetchxml-result-area")
+                    $resultArea.val(JSON.stringify(result, null, 2));
+                    $("#crm-power-pane-fetchxml-popup-container ul li").eq($resultArea.parent().index()).trigger("click");
+                }
+            });
+
+            $("#solutions").click(function () {
+                var $popupBg = $("#crm-power-pane-popup-bg");
+                $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
+                var $solutionsPopup = $("#crm-power-pane-solutions-popup");
+                $solutionsPopup.fadeIn(CrmPowerPane.Constants.SlideTime);
+            });
         }
     };
     CrmPowerPane.RegisterjQueryExtensions();
     CrmPowerPane.RegisterEvents();
-    console.log(CrmPowerPane.ServiceOperations.RetrieveEntities());
+    
 });

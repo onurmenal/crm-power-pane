@@ -93,6 +93,14 @@
             margin-right: 5px;
         }
 
+        .crm-power-pane-subgroup span.fetch-xml-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/fetch-xml.png');
+        }
+
+        .crm-power-pane-subgroup span.solutions-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/solutions.png');
+        }
+
         .crm-power-pane-subgroup span.entity-name-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/entity-name.png');
         }
@@ -265,6 +273,64 @@
     padding: 20px 20px 40px 20px;
 }
 
+.crm-power-pane-advenced-popup {
+    display: none;
+    width: 750px;
+    height:70%;
+    background-color: white;
+    box-shadow: 0px 0px 15px black;
+    border: 1px solid #999;
+    position: absolute;
+    left: 32%;
+    top: 10%;
+    margin-left: -185px;
+    padding: 20px 20px 40px 20px;
+}
+
+    #crm-power-pane-fetchxml-popup ul {
+        width: 100%;
+        height: 18px;
+    }
+
+    #crm-power-pane-fetchxml-popup ul li {
+        float: left;
+        padding: 2px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #efefef;
+        border: 1px solid #DDD;
+        height: 14px;
+        cursor:pointer;
+    }
+
+#crm-power-pane-fetchxml-popup-tabs{
+    border:1px solid #DDD;
+    height: 280px;
+    margin-top: 1px;
+}
+
+.dynamics-crm-power-pane-active-tab{
+    background-color:white!important;
+    cursor:default!important;
+}
+
+.crm-power-pane-texarea{
+    font-family:Consolas,'Lucida Console';
+    height:250px;
+    line-height: 18px;
+    font-size:11px;
+    padding:3px;
+    width:99%;
+    border:none;
+    outline:none;
+}
+
+.crm-power-pane-fetchxml-tab{
+    display:none;
+    clear: both
+}
+
+
     #crm-power-pane-popup ul {
         list-style-type: none;
         margin: 0px;
@@ -275,13 +341,14 @@
             clear:both; 
         }
 
-    #crm-power-pane-popup h1 {
+    .crm-power-pane-popup-header {
         font-size: 27px;
         font-weight: Lighter;
         display: block;
         line-height: 28px;
         height: 100% !important;
         max-width: 400px;
+        height:28px!important;
         margin-right: 21px;
         padding-left: 0px;
         font-family: Segoe\000020UI,Tahoma,Arial;
@@ -395,3 +462,18 @@
         margin-top: -4px;
         margin-right: 3px;
     }
+
+.dynamics-crm-power-pane-table{
+    width:100%;
+    border-collapse: separate;
+}
+
+.dynamics-crm-power-pane-table th{
+    border-top:1px solid #d6d6d6;
+    border-bottom:1px solid #d6d6d6;
+    height:22px;
+    cursor:pointer;
+}
+.dynamics-crm-power-pane-table td {
+    height:22px;
+}

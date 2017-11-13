@@ -8,6 +8,10 @@
     scriptTag.setAttribute('type', 'text/javascript');
     scriptTag.setAttribute('src', chrome.extension.getURL("power-pane/script.js"));
 
+    var scriptToolKit = document.createElement('script');
+    scriptToolKit.setAttribute('type', 'text/javascript');
+    scriptToolKit.setAttribute('src', chrome.extension.getURL("power-pane/XrmServiceToolkit.js"));
+
     var mainBody = document.querySelectorAll('body[scroll=no]');
 
     if (mainBody && mainBody.length > 0) {
@@ -37,6 +41,7 @@
                         inject.innerHTML = xmlHttp.responseText
 
                         mainBody[0].appendChild(cssRef);
+                        mainBody[0].appendChild(scriptToolKit);
                         mainBody[0].appendChild(scriptTag);
                         mainBody[0].appendChild(inject);
 
