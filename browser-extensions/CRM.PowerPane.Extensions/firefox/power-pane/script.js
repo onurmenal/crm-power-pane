@@ -379,6 +379,37 @@ $(function () {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
             });
+            
+            $("#schema-names-in-brackets").click(function () {
+                try {
+                    var updateStatus;
+                    Xrm.Page.ui.controls.forEach(function (a) {
+                        try {
+                            if (a && a.setLabel && a.getName)
+                                if (!a._$originalLabel) {
+                                    a._$originalLabel = a.getLabel();
+                                    var newLabel = `${a.getLabel()} [${a.getName()}]`;
+                                    a.setLabel(newLabel);
+                                    updateStatus = "update";
+                                }
+                                else {
+                                    updateStatus = "rollback"
+                                    a.setLabel(a._$originalLabel);
+                                    a._$originalLabel = null;
+                                }
+                        } catch (e) { }
+                    });
+                    if(updateStatus == "update")
+                        CrmPowerPane.UI.ShowNotification("Added schema names in brackets.");
+                    else if(updateStatus == "rollback")
+                        CrmPowerPane.UI.ShowNotification("Removed schema names in brackets.");
+
+                    updateStatus = null;
+
+                } catch (e) {
+                    CrmPowerPane.Errors.WrongPageWarning();
+                }
+            });
 
             $("#refresh-form").click(function () {
                 try {
@@ -614,7 +645,7 @@ $(function () {
                             "Finds and focus speicified field.",
                             [
                                 {
-                                    label: "Field Scheme Name",
+                                    label: "Field Schema Name",
                                     name: "fieldname"
                                 }
                             ],

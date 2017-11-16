@@ -149,6 +149,10 @@
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/schema-names-as-desc.png');
         }
 
+        .crm-power-pane-subgroup span.schema-names-in-brackets-icon {
+            background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/schema-names-in-brackets.png');
+        }
+
         .crm-power-pane-subgroup span.refresh-form-icon {
             background: url('chrome-extension://__MSG_@@extension_id__/img/action-icons/refresh-form.png');
         }
