@@ -5,17 +5,17 @@ The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamic
 ## Usage
 Click the CRM Power Pane icon next to the Microsoft Dynamics 365 logo, and select your action.
 
-![CRM Power Pane Usage](./.github/assets/usage.png)
+![CRM Power Pane Usage](./docs/assets/usage.png)
 
 ## Install
 
 ### Google Chrome
 
-[![Dynamics CRM Power Pane on Chrome Web Store](./.github/assets/chrome-web-store-badge.png)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc)
+[![Dynamics CRM Power Pane on Chrome Web Store](./docs/assets/chrome-web-store-badge.png)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc)
 
 ### Mozilla Firefox
 
-[![Dynamics CRM Power Pane on Mozilla Add-Ons](./.github/assets/firefox-addon.png)](
+[![Dynamics CRM Power Pane on Mozilla Add-Ons](./docs/assets/firefox-addon.png)](
 https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane)
 
 ## Contribute
