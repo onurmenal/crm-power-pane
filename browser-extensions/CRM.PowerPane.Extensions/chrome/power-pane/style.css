@@ -6,7 +6,8 @@
     cursor: pointer;
 }
 
-#crm-power-pane-popup a:link, a:visited {
+#crm-power-pane-popup a:link,
+#crm-power-pane-popup a:visited {
     background-color: white;
     color: black;
     border: rgb(17, 96, 183);
@@ -16,7 +17,8 @@
     display: inline-block;
 }
 
-#crm-power-pane-popup a:hover, a:active {
+#crm-power-pane-popup a:hover,
+#crm-power-pane-popup a:active {
     background-color: rgb(17, 96, 183);
     color: white;
 }
