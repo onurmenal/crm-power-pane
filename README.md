@@ -18,10 +18,21 @@ Click the CRM Power Pane icon next to the Microsoft Dynamics 365 logo, and selec
 [![Dynamics CRM Power Pane on Mozilla Add-Ons](./docs/assets/firefox-addon.png)](
 https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane)
 
+*Disclaimer: This is as unsupported as it gets.*
+
+## Build and Run
+
+To build the repository, you need to have Node.js and `npm` installed.
+
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `npm run build-chrome` to build for Google Chrome.
+4. Run `npm run build-firefox` to build for Mozilla Firefox.
+
+The extensions will be build under `./dist/chrome/` and `./dist/firefox/` directories respectively.
+
 ## Contribute
 
 Simply fork the repository, make your change, test it and send a pull request! 
 
 We will review each pull request and include them in the next release. All contributions are welcome.
-
-*Disclaimer: This is as unsupported as it gets.*
