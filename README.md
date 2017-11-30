@@ -29,7 +29,7 @@ To build the repository, you need to have Node.js and `npm` installed.
 3. Run `npm run build-chrome` to build for Google Chrome.
 4. Run `npm run build-firefox` to build for Mozilla Firefox.
 
-The extensions will be build under `./dist/chrome/` and `./dist/firefox/` directories respectively.
+The extensions will be built under `./dist/chrome/` and `./dist/firefox/` directories respectively.
 
 ## Contribute
 
