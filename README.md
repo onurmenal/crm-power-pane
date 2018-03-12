@@ -28,8 +28,9 @@ To build the repository, you need to have Node.js and `npm` installed.
 2. Run `npm install` to install the dependencies
 3. Run `npm run build-chrome` to build for Google Chrome.
 4. Run `npm run build-firefox` to build for Mozilla Firefox.
+5. Run `npm run build-edge` to build for Microsoft Edge (experimental).
 
-The extensions will be built under `./dist/chrome/` and `./dist/firefox/` directories respectively.
+The extensions will be built under `./dist/chrome/`, `./dist/firefox/` and `./dist/edge/` directories respectively.
 
 ## Contribute
 
