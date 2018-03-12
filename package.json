@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-chrome": "gulp --target=chrome",
-    "build-firefox": "gulp --target=firefox"
+    "build-firefox": "gulp --target=firefox",
+    "build-edge": "gulp --target=edge"
   },
   "author": "Onur Menal",
   "license": "ISC",

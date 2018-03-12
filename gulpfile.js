@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     fs = require('fs'),
     manifestBuilder = require('./src/js/util/manifest-builder');
 
-var supportedTargets = ['chrome', 'firefox'];
+var supportedTargets = ['chrome', 'firefox', 'edge'];
 if(supportedTargets.indexOf(argv.target) === -1) {
     console.error(`Target "${argv.target}" is not supported. Please use one of the following targets: ${supportedTargets.join(', ')}. Example usage: gulp [task-name] --target=chrome`);
     process.exit();
@@ -37,6 +37,13 @@ gulp.task('img', function () {
 });
 
 gulp.task('js', function () {
+
+    // Copy API Bridges
+    if(argv.target == 'edge') {
+        gulp.src(['src/assets/lib/edge/*.js'])
+            .pipe(gulp.dest(`dist/${argv.target}`));
+    }
+    
     return gulp.src(['src/js/*.js'])
         .pipe(gulp.dest(`dist/${argv.target}/js`));
 });

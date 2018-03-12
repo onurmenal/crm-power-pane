@@ -11,7 +11,6 @@ const build = (target) => {
     manifest.content_security_policy = "script-src 'self'; object-src 'self'"
 
     manifest.browser_action = {};
-    manifest.browser_action.default_icon = "img/icon-48.png"
     manifest.browser_action.default_title = "Dynamics CRM Power Pane"
 
     manifest.icons = {};
@@ -49,6 +48,14 @@ const build = (target) => {
     // Chrome properties
     if(target === 'chrome') {
         manifest.options_page = "ui/options.html"
+        manifest.browser_action.default_icon = "img/icon-48.png"
+    }
+    
+    if(target === 'edge') {
+        manifest.author = "Onur Menal";
+        manifest.browser_action.default_icon = {};
+        manifest.browser_action.default_icon[30] = "img/icon-32.png"
+        manifest.browser_action.default_icon[35] = "img/icon-32.png"
     }
     
     // TODO: Add firefox and edge-specific conversions.

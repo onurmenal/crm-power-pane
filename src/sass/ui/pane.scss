@@ -5,6 +5,10 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     $browserPrefix: 'moz-extension://__MSG_@@extension_id__';
 }
 
+@if($target == 'edge') {
+    $browserPrefix: 'ms-browser-extension://__MSG_@@extension_id__';
+}
+
 .lookup-link {
     background: url('#{$browserPrefix}/img/lookup-link.png');
     background-size: 16px;

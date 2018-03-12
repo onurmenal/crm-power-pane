@@ -1,3 +1,7 @@
+if(typeof browser === "undefined") {
+    browser = chrome;
+}
+
 // Saves options to chrome.storage
 function saveOptions() {
     var dataToSave = {}
@@ -5,7 +9,7 @@ function saveOptions() {
     for (var i = 0; i < options.length; i++) {
         dataToSave[options[i].id] = options[i].checked
     }
-    chrome.storage.sync.set(dataToSave, function() {
+    browser.storage.sync.set(dataToSave, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
         status.textContent = 'Options saved.';
@@ -17,7 +21,7 @@ function saveOptions() {
   
 // Loads options from chrome.storage
 function loadOptions() {
-    chrome.storage.sync.get(null, function(options) {
+    browser.storage.sync.get(null, function(options) {
         for (var option in options) {
             if (!options.hasOwnProperty(option)) continue;
             var optionCheckbox = document.getElementById(option);
@@ -29,7 +33,7 @@ function loadOptions() {
 // Generates options page based on pane.html content
 function generateOptionsPage() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", chrome.extension.getURL("ui/pane.html"), true);
+    xmlHttp.open("GET", browser.extension.getURL("ui/pane.html"), true);
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             parser = new DOMParser();

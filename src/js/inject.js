@@ -1,16 +1,21 @@
 (function () {
+
+    if(typeof browser === "undefined") {
+        browser = chrome;
+    }
+
     var cssRef = document.createElement('link');
     cssRef.setAttribute('rel', 'stylesheet');
     cssRef.setAttribute('type', 'text/css');
-    cssRef.setAttribute('src', chrome.extension.getURL("ui/css/pane.css"));
+    cssRef.setAttribute('src', browser.extension.getURL("ui/css/pane.css"));
 
     var scriptTag = document.createElement('script');
     scriptTag.setAttribute('type', 'text/javascript');
-    scriptTag.setAttribute('src', chrome.extension.getURL("ui/js/pane.js"));
+    scriptTag.setAttribute('src', browser.extension.getURL("ui/js/pane.js"));
 
     var scriptToolKit = document.createElement('script');
     scriptToolKit.setAttribute('type', 'text/javascript');
-    scriptToolKit.setAttribute('src', chrome.extension.getURL("ui/js/XrmServiceToolkit.js"));
+    scriptToolKit.setAttribute('src', browser.extension.getURL("ui/js/XrmServiceToolkit.js"));
 
     var mainBody = document.querySelectorAll('body[scroll=no]');
 
@@ -24,12 +29,12 @@
             helperPaneButton.setAttribute('title', 'Show Dynamics CRM Power Pane');
             helperPaneButton.innerHTML = '<a class="navTabButtonLink" title="Show Dynamics CRM Power Pane">'
                                             + '<span class="navTabButtonImageContainer">'
-                                                + '<img alt="Show Dynamics CRM Power Pane." src="' + chrome.extension.getURL("img/icon-24.png") + '"'
+                                                + '<img alt="Show Dynamics CRM Power Pane." src="' + browser.extension.getURL("img/icon-24.png") + '"'
                                             + '</span>'
                                          + '</a>'
             ribbon[0].insertBefore(helperPaneButton, ribbon[0].firstChild);
 
-            var helperPaneTemplate = chrome.extension.getURL("ui/pane.html");
+            var helperPaneTemplate = browser.extension.getURL("ui/pane.html");
 
             xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", helperPaneTemplate, true);
@@ -62,7 +67,7 @@
 
     function applyUserOptions() {
         // Show/hide menu items
-        chrome.storage.sync.get(null, function(settings) {
+        browser.storage.sync.get(null, function(settings) {
             for (var setting in settings) {
                 if (!settings.hasOwnProperty(setting)) continue;
                 if (settings[setting])
