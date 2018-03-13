@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-chrome": "gulp --target=chrome",
     "build-firefox": "gulp --target=firefox",
-    "build-edge": "gulp --target=edge"
+    "build-edge": "gulp --target=edge",
+    "build-all": "npm run build-chrome & npm run build-firefox & npm run build-edge"
   },
   "author": "Onur Menal",
   "license": "ISC",
