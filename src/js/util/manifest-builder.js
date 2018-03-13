@@ -50,9 +50,11 @@ const build = (target) => {
         manifest.options_page = "ui/options.html"
         manifest.browser_action.default_icon = "img/icon-48.png"
     }
-    
+
+    // Edge properties
     if(target === 'edge') {
         manifest.author = "Onur Menal";
+        manifest.options_page = "ui/options.html"        
         manifest.browser_action.default_icon = {};
         manifest.browser_action.default_icon[30] = "img/icon-32.png"
         manifest.browser_action.default_icon[35] = "img/icon-32.png"
