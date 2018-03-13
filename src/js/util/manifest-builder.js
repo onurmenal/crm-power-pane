@@ -50,6 +50,15 @@ const build = (target) => {
         manifest.options_page = "ui/options.html"
         manifest.browser_action.default_icon = "img/icon-48.png"
     }
+    
+    // Firefox properties
+    if(target === 'firefox') {
+        manifest.options_ui = {
+            page: "ui/options.html",
+            browser_style: true,
+            //open_in_tab: true
+        }
+    }
 
     // Edge properties
     if(target === 'edge') {
