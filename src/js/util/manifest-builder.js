@@ -58,6 +58,9 @@ const build = (target) => {
             browser_style: true,
             //open_in_tab: true
         }
+
+        manifest.browser_action.default_icon = {};
+        manifest.browser_action.default_icon[32] = "img/icon-32.png"
     }
 
     // Edge properties
