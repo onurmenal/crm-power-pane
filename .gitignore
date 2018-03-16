@@ -1,4 +1,9 @@
-*.suo
-obj/
-.vs
-.vs/
+# npm
+node_modules/
+npm-debug.log
+
+# build output
+dist/
+
+# Visual Studio Code Settings
+.vscode/
