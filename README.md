@@ -35,4 +35,4 @@ The extensions will be built under `./dist/chrome/`, `./dist/firefox/` and `./di
 
 ## Contribute
 
-See the [contributing guidelines](./CONTRIBUTING.md) and [code of conduct](./CODE_OF_CONDUCT.md) for more insights.
+See the [contributing guidelines](./.github/CONTRIBUTING.md) and [code of conduct](./.github/CODE_OF_CONDUCT.md) for more insights.
