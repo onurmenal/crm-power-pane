@@ -1,0 +1,28 @@
+**Description**
+
+> Please provide a short description of the proposed changes.
+
+> Please add references to the relevant issues if you haven't already done so in commit messages. 
+> e.g. `Fixes #99`
+
+> Please @mention the person or team responsible for reviewing proposed changes.
+
+**Code Review Checklist**
+
+- [ ] I completed a complete self-review of my contribution.
+
+> Please confirm you have tested the extension on all browsers and on at least one Dynamics version. 
+> We encourage testing the changes on as many different environments as possible.
+
+I tested the extension for the following browsers:
+  - [ ] Google Chrome
+  - [ ] Mozilla Firefox
+  - [ ] Microsoft Edge
+
+I tested the extension on the following versions of the product:
+ - [ ] Dynamics 365 v9
+ - [ ] Dynamics 365 v8.2
+ - [ ] Dynamics CRM 2016
+ - [ ] Dynamics CRM 2015
+ - [ ] Dynamics CRM 2013
+ 
