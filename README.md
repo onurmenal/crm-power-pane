@@ -35,6 +35,4 @@ The extensions will be built under `./dist/chrome/`, `./dist/firefox/` and `./di
 
 ## Contribute
 
-Simply fork the repository, make your change, test it and send a pull request! 
-
-We will review each pull request and include them in the next release. All contributions are welcome.
+See the [contributing guidelines](./CONTRIBUTING.md) and [code of conduct](./CODE_OF_CONDUCT.md) for more insights.
