@@ -21,11 +21,11 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Product Version**
- - [ ] Dynamics 365 v9
- - [ ] Dynamics 365 v8.2
- - [ ] Dynamics CRM 2016
- - [ ] Dynamics CRM 2015
- - [ ] Dynamics CRM 2013
+ - Dynamics 365 v9
+ - Dynamics 365 v8.2
+ - Dynamics CRM 2016
+ - Dynamics CRM 2015
+ - Dynamics CRM 2013
 
 **Environment**
  - OS: [e.g. iOS]
