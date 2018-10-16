@@ -9,6 +9,12 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     $browserPrefix: 'ms-browser-extension://__MSG_@@extension_id__';
 }
 
+.crm-power-pane-container {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+}
+
 .lookup-link {
     background: url('#{$browserPrefix}/img/lookup-link.png');
     background-size: 16px;

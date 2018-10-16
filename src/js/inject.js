@@ -44,7 +44,8 @@
                     if (xmlHttp.status == 200) {
                         var inject = document.createElement("div");
                         inject.innerHTML = xmlHttp.responseText
-
+                        inject.className = "crm-power-pane-container";
+                        
                         mainBody[0].appendChild(cssRef);
                         mainBody[0].appendChild(scriptToolKit);
                         mainBody[0].appendChild(scriptTag);
