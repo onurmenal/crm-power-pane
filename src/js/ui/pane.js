@@ -224,17 +224,22 @@ $(function () {
                 Xrm = CrmPowerPane.TargetFrame.GetXrm();
             });
 
-            $("#crm-power-pane-button").click(function () {
-                var $sections = $(".crm-power-pane-sections");
-
-                if (!$sections.is(":visible")) {
-                    $sections.slideToggle(CrmPowerPane.Constants.SlideTime).focus();
-                }
+            $("#crm-power-pane-button").click(function (e) {
+                $(".crm-power-pane-sections").slideToggle(CrmPowerPane.Constants.SlideTime);
+                e.stopPropagation();
             });
 
             // Hide the pane if it is already open and the user clicked somewhere else.
-            $(".crm-power-pane-sections").bind("focusout", function () {
-                $(this).delay(100).slideUp(CrmPowerPane.Constants.SlideTime);
+            $(window).on("click", function () {
+                $(".crm-power-pane-sections").delay(100).slideUp(CrmPowerPane.Constants.SlideTime);
+            });
+
+            $(window).on("blur", function () {
+                $(".crm-power-pane-sections").delay(100).slideUp(CrmPowerPane.Constants.SlideTime);
+            });
+            
+            $(".crm-power-pane-sections").click(function (e) {
+                e.stopPropagation();
             });
 
             $("#entity-name").click(function () {
