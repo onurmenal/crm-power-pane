@@ -51,19 +51,32 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     top: 50px;
     display: none;
     width: 100%;
-    position: absolute;
     background-color: white;
     color: black;
-    padding: 10px 0px 10px 30px;
+    padding: 10px 0px;
     font-size: 14px;
     box-shadow: 5px 5px 5px #CCC;
     clear:both;
 }
 
+.crm-power-pane-scrolling-container {
+    
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+        display:none;
+    }
+}
+
 .crm-power-pane-section {
     list-style-type: none;
     float: left;
-    margin-right: 60px;
+    padding: 0px 24px;
+    flex: 0 0 auto;
 }
 
 .crm-power-pane-header {
