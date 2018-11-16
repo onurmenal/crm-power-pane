@@ -12,10 +12,17 @@ Click the CRM Power Pane icon next to the Microsoft Dynamics 365 logo, and selec
 ## Install
 
 ### Google Chrome
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/eadknamngiibbmjdfokmppfooolhdidc.svg)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc)
+[![Chrome Web Store - Users](https://img.shields.io/chrome-web-store/users/eadknamngiibbmjdfokmppfooolhdidc.svg)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc)
+[![Chrome Web Store - Rating](https://img.shields.io/chrome-web-store/rating/eadknamngiibbmjdfokmppfooolhdidc.svg)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc/reviews)
+[![Chrome Web Store - Reviews](https://img.shields.io/chrome-web-store/rating-count/eadknamngiibbmjdfokmppfooolhdidc.svg)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc/reviews)
 
 [![Dynamics CRM Power Pane on Chrome Web Store](./docs/assets/chrome-web-store-badge.png)](https://chrome.google.com/webstore/detail/dynamics-crm-power-pane/eadknamngiibbmjdfokmppfooolhdidc)
 
 ### Mozilla Firefox
+[![Mozilla Add-on](https://img.shields.io/amo/v/dynamics-crm-power-pane.svg)](https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/)
+[![Mozilla Add-on - Users](https://img.shields.io/amo/users/dynamics-crm-power-pane.svg)](https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/)
+[![Mozilla Add-on - Rating](https://img.shields.io/amo/rating/dynamics-crm-power-pane.svg)](https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane/reviews/)
 
 [![Dynamics CRM Power Pane on Mozilla Add-Ons](./docs/assets/firefox-addon.png)](
 https://addons.mozilla.org/en-US/firefox/addon/dynamics-crm-power-pane)
