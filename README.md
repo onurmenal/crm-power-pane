@@ -1,4 +1,5 @@
 # CRM Power Pane
+[![Build Status](https://dev.azure.com/powerpane/Dynamics%20365%20Power%20Pane/_apis/build/status/crm-power-pane-ci)](https://dev.azure.com/powerpane/Dynamics%20365%20Power%20Pane/_build/latest?definitionId=1)
 
 The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamics 365 application and allow you to manipulate forms or perform actions faster throughout the Microsoft Dynamics 365 application.
 
