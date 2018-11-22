@@ -4,33 +4,41 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+:bug: **Describe the bug**
+<!-- A clear and concise description of what the bug is. -->
 
-**To Reproduce**
-Steps to reproduce the behavior:
+:clipboard: **To Reproduce**
+<!--
+Steps to reproduce the behavior, e.g.:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
+-->
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+:thought_balloon: **Expected behavior**
+<!-- A clear and concise description of what you expected to happen. -->
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+:camera: **Screenshots**
+<!-- If applicable, add screenshots to help explain your problem. -->
 
-**Product Version**
+:zap: **Product Version**
+<!--
+The product version(s) you found the problem in, e.g.:
  - Dynamics 365 v9
  - Dynamics 365 v8.2
  - Dynamics CRM 2016
  - Dynamics CRM 2015
  - Dynamics CRM 2013
+-->
 
-**Environment**
+:earth_africa: **Environment**
+<!--
+ Provide some details about your environment
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
+-->
 
-**Additional context**
-Add any other context about the problem here.
+:information_source: **Additional context**
+<!-- Add any other context about the problem here. -->
