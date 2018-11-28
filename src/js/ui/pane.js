@@ -212,7 +212,7 @@ $(function () {
                 $("#crm-power-pane-button").hide();
             },
             WrongPageWarning: function () {
-                CrmPowerPane.UI.ShowNotification("You need to open a record form for using this action. ", "warning");
+                CrmPowerPane.UI.ShowNotification("You need to open a record form to use this action. ", "warning");
             }
 
         },
@@ -333,7 +333,7 @@ $(function () {
                                         }
                                     });
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting specific record.", "error");
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to specified record.", "error");
                 }
             });
 
@@ -443,7 +443,7 @@ $(function () {
                         }
                     });
 
-                    CrmPowerPane.UI.ShowNotification("Visibility of all fields updated as visible.");
+                    CrmPowerPane.UI.ShowNotification("Visibility of all fields updated to visible.");
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
@@ -457,7 +457,7 @@ $(function () {
                                 c.getAttribute().setRequiredLevel("none");
                         } catch (e) { }
                     });
-                    CrmPowerPane.UI.ShowNotification("Required level of all fields updated as none.");
+                    CrmPowerPane.UI.ShowNotification("Required level of all fields updated to none.");
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
@@ -482,9 +482,9 @@ $(function () {
                         } catch (e) { }
                     });
                     if(updateStatus == "update")
-                        CrmPowerPane.UI.ShowNotification("All labels updated as schema name.");
+                        CrmPowerPane.UI.ShowNotification("All labels updated to schema name.");
                     else if(updateStatus == "rollback")
-                        CrmPowerPane.UI.ShowNotification("Shema name updates rolled back.");
+                        CrmPowerPane.UI.ShowNotification("Schema name updates rolled back.");
 
                     updateStatus = null;
 
@@ -694,7 +694,7 @@ $(function () {
                                         Mscrm.RibbonActions.openEntityEditor(entityTypeCode)
                                     });
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting entity editor.", "error");
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to entity editor.", "error");
                 }
             });
 
@@ -794,7 +794,7 @@ $(function () {
                                     popupObj.Parameters = outputParams;
                                     popupObj.ShowData();
                                 } else {
-                                    CrmPowerPane.UI.ShowNotification("Control type of your field is unrecognized.", "warning");
+                                    CrmPowerPane.UI.ShowNotification("The control type of your field is not recognized.", "warning");
                                 }
                             },
                             true);
@@ -833,7 +833,7 @@ $(function () {
                                         Content.$("#" + control.getName()).css('background', '#FFFF00');
                                     }
                                 } else {
-                                    CrmPowerPane.UI.ShowNotification(fieldName + " field couldn't find.", "warning");
+                                    CrmPowerPane.UI.ShowNotification(fieldName + " field could not be found.", "warning");
                                 }
                             });
                     }
