@@ -22,6 +22,7 @@ jobs:
     displayName: 'Install Node.js'
 
   - script: |
+      npm install --only=dev
       npm install
       npm run build-all
     displayName: 'npm install and run all build scripts'
