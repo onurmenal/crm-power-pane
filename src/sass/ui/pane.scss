@@ -9,14 +9,6 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     $browserPrefix: 'ms-browser-extension://__MSG_@@extension_id__';
 }
 
-.lookup-link {
-    background: url('#{$browserPrefix}/img/lookup-link.png');
-    background-size: 16px;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
 #crm-power-pane-popup a:link,
 #crm-power-pane-popup a:visited {
     background-color: white;

@@ -574,9 +574,12 @@ $(function () {
                 Xrm.Page.ui.controls.forEach(function (control) {
                     try {
                         if (control.getControlType() === 'lookup') {
+                            
                             var linkId = control.getName() + "-lookup-link";
-                            Content.$("#" + control.getName()).parent().after("<div class='lookup-link' id='" + linkId + "'></div>");
-                            Content.$("#" + linkId).click(function () {
+                            var externalIcon = '<svg id="i-external" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14 9 L3 9 3 29 23 29 23 18 M18 4 L28 4 28 14 M28 4 L14 18" /></svg>';
+                            var openInNewWindowLink = $('<a id="' + linkId + '" class="lookup-link" alt="Open this record in a new window" title="Open this record in a new window"  style="cursor: pointer;margin: 0px 5px">' + externalIcon + '</a>');
+                            Content.$("#" + control.getName()).append(openInNewWindowLink);
+                            Content.$(openInNewWindowLink).click(function () {
                                 try {
                                     var attribute = control.getAttribute().getValue()[0];
                                     var url = Xrm.Page.context.getClientUrl() + "/main.aspx?etn=" + attribute.entityType + "&id=" + attribute.id + "&pagetype=entityrecord";
