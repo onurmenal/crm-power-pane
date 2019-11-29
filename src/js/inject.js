@@ -18,9 +18,16 @@
     scriptToolKit.setAttribute('src', browser.extension.getURL("ui/js/XrmServiceToolkit.js"));
 
     var mainBody = document.querySelectorAll('body[scroll=no]');
+    if (!mainBody) {
+        mainBody = document.querySelectorAll('body.noOutline');
+    }
 
     if (mainBody && mainBody.length > 0) {
         var ribbon = document.querySelectorAll('#navBar');
+        if (!ribbon) {
+            ribbon = document.querySelectorAll('div.topBar');
+        }
+        
         var helperPaneButton = document.getElementById("crm-power-pane-button");
         if (ribbon != null && ribbon.length > 0 && !helperPaneButton) {
             var helperPaneButton = document.createElement("span");
