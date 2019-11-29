@@ -1,6 +1,10 @@
 /// <reference path="XrmServiceToolkit.js" />
 $(function () {
     var CrmPowerPane = {
+        ApplicationType: {
+            DynamicsCRM: "Dynamics CRM",
+            Dynamics365: "Dynamics 365"
+        },
         Constants: {
             SlideTime: 250,
             NotificationClassPrefix: "crm-power-pane-",
@@ -189,11 +193,30 @@ $(function () {
             };
         },
         TargetFrame: {
+            GetApplicationType: function () {
+                var mainBody = document.querySelectorAll('body[scroll=no]');
+                var topBar = document.querySelector("div[data-id=topBar]")
+
+                if (mainBody && mainBody.length > 0) {
+                    return CrmPowerPane.ApplicationType.DynamicsCRM
+                } else if (topBar) {
+                    return CrmPowerPane.ApplicationType.Dynamics365
+                } else {
+                    return null;
+                }
+            },
             GetContent: function () {
                 try {
-                    return $("iframe").filter(function () {
-                        return $(this).css("visibility") == "visible"
-                    })[0].contentWindow;
+                    var applicationType = CrmPowerPane.TargetFrame.GetApplicationType()
+                    if (applicationType == CrmPowerPane.ApplicationType.DynamicsCRM) {
+                        return $("iframe").filter(function () {
+                            return $(this).css("visibility") == "visible"
+                        })[0].contentWindow;
+                    } else if (applicationType == CrmPowerPane.ApplicationType.Dynamics365) {
+                        return window;
+                    } else {
+                        return null;
+                    }
                 } catch (e) {
                     CrmPowerPane.Errors.ExecutionError(e);
                 }

@@ -7,3 +7,6 @@ dist/
 
 # Visual Studio Code Settings
 .vscode/
+
+#Visual Studio Settigns
+.vs/
