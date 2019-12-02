@@ -55,6 +55,11 @@ $(function () {
                         if (event.key === "Enter")
                             $("#crm-power-pane-popup-ok") && $("#crm-power-pane-popup-ok").click();
                     });
+
+                    $popup.unbind().keyup(function(event) {
+                        if (event.key === "Escape")
+                            $("#crm-power-pane-popup-cancel") && $("#crm-power-pane-popup-cancel").click();
+                    });
                     return $popup;
                 },
                 this.AddParameter = function (label, name, value) {
