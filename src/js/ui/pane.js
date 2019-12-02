@@ -132,6 +132,21 @@ $(function () {
                             $popupBg.fadeOut(CrmPowerPane.Constants.SlideTime);
                         });
                 }
+            },
+            SetButtonBackgrounds: function () {
+                var color = "#001ca5";
+                if (CrmPowerPane.TargetFrame.GetApplicationType() == CrmPowerPane.ApplicationType.DynamicsCRM) {
+                    color = $("#crmMasthead").css("background-color");
+                } else if (CrmPowerPane.TargetFrame.GetApplicationType() == CrmPowerPane.ApplicationType.Dynamics365) {
+                    color = $("div[data-id=topBar]").css("background-color");
+                }
+
+                color = (color == "rgb(0, 32, 80)" || color == "rgb(0, 20, 51)") ? "#001ca5" : color;
+
+                //$("#crm-power-pane-button").css("background-color", color);
+                $(".crm-power-pane-subgroup .icon").css("background-color", color);
+                $(".crm-power-pane-header").css("color", color);
+
             }
         },
         ServiceOperations: {
@@ -980,6 +995,8 @@ $(function () {
             });
         }
     };
+
+    CrmPowerPane.UI.SetButtonBackgrounds();
     CrmPowerPane.RegisterjQueryExtensions();
     CrmPowerPane.RegisterEvents();
     
