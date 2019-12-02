@@ -51,9 +51,11 @@ $(function () {
                     $popup.find("p").html(this.Description).toggle(this.Description != null);
                     $popup.find("li").remove();
 
-                    $popup.unbind().keypress(function(event) {
+                    $popup.unbind().keyup(function(event) {
                         if (event.key === "Enter")
                             $("#crm-power-pane-popup-ok") && $("#crm-power-pane-popup-ok").click();
+                        else if (event.key === "Escape")
+                            $("#crm-power-pane-popup-cancel") && $("#crm-power-pane-popup-cancel").click();
                     });
                     return $popup;
                 },
