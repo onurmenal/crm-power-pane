@@ -257,6 +257,25 @@ $(function () {
         RegisterEvents: function () {
             var Content, Xrm;
 
+            var _getObjectTypeCode = function () {
+
+                    // The `etc` query string parameter is not available in UCI, so only show this
+                    // if it's available.
+                    var entityName = Xrm.Page.data.entity.getEntityName();
+                    var objectTypeCode = Xrm.Page.context.getQueryStringParameters().etc;
+                    if(!objectTypeCode) {
+                        // UCI - try getting the object type code using the internal API
+                        try {
+                            objectTypeCode = Xrm.Internal.getEntityCode(entityName);
+                        }
+                        catch (e) {
+                            /* do nothing */
+                        }
+                    }
+
+                    return objectTypeCode;
+            }
+
             $(".crm-power-pane-subgroup").bindFirst('click', function () {
                 Content = CrmPowerPane.TargetFrame.GetContent();
                 Xrm = CrmPowerPane.TargetFrame.GetXrm();
@@ -292,20 +311,8 @@ $(function () {
                         }
                     ];
 
-                    // The `etc` query string parameter is not available in UCI, so only show this
-                    // if it's available.
-                    var objectTypeCode = Xrm.Page.context.getQueryStringParameters().etc;
-                    if(!objectTypeCode) {
-                        // UCI - try getting the object type code using the internal API
-                        try {
-                            objectTypeCode = Xrm.Internal.getEntityCode(entityName);
-                        }
-                        catch (e) {
-                            /* do nothing */
-                        }
-                    }
-
                     // Show object type code if known 
+                    var objectTypeCode = _getObjectTypeCode();
                     if(!!objectTypeCode) {
                         values.push({
                             label: "Entity Type Code",
@@ -359,8 +366,25 @@ $(function () {
             $("#record-properties").click(function () {
                 try {
                     var id = Xrm.Page.data.entity.getId();
-                    var etc = Xrm.Page.context.getQueryStringParameters().etc;
-                    Content.Mscrm.RibbonActions.openFormProperties(id, etc);
+                    var etc = _getObjectTypeCode();
+                    
+                    if(Content.Mscrm && Content.Mscrm.RibbonActions && Content.Mscrm.RibbonActions.openFormProperties) { 
+                        Content.Mscrm.RibbonActions.openFormProperties(id, etc);
+                    }
+                    else {
+                        var recordPropertiesUrl = Xrm.Page.context.getClientUrl() + "/_forms/properties/properties.aspx?dType=1&id=" + id + "&objTypeCode=" + etc;
+                        var options = {
+                            width: 420,
+                            height: 505
+                        };
+
+                        if(Xrm.Internal.getAllowLegacyDialogsEmbedding()) {
+                            Xrm.Internal.openLegacyWebDialog(recordPropertiesUrl, options)
+                        }
+                        else {
+                            Xrm.Navigation.openUrl(recordPropertiesUrl, options);
+                        }
+                    }
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
