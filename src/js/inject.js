@@ -66,8 +66,8 @@
         imageElement.setAttribute("src", browser.extension.getURL("img/icon-24.png"));
 
         if (GetAppicationType() == ApplicationType.Dynamics365) {
-            powerPaneButton.setAttribute('style', 'float:left; width:50px; height:47px;cursor:pointer!important');
-            linkElement.setAttribute("style", "float:left; width:50px; height:47px;cursor:pointer!important;text-align:center");
+            powerPaneButton.setAttribute('style', 'float:left; width:50px; height:48px;cursor:pointer!important');
+            linkElement.setAttribute("style", "float:left; width:50px; height:48px;cursor:pointer!important;text-align:center");
             imageElement.setAttribute("style", "padding-top:10px");
         }
 
