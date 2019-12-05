@@ -283,26 +283,34 @@ $(function () {
             $("#entity-name").click(function () {
                 try {
 
+
+                    var entityName = Xrm.Page.data.entity.getEntityName();
                     var values = [
                         {
                             label: "Entity Name",
-                            value: Xrm.Page.data.entity.getEntityName()
+                            value: entityName
                         }
                     ];
 
                     // The `etc` query string parameter is not available in UCI, so only show this
                     // if it's available.
                     var objectTypeCode = Xrm.Page.context.getQueryStringParameters().etc;
-                    if(typeof objectTypeCode !== 'undefined' && objectTypeCode !== null && objectTypeCode !== "") {
-                        // Classic UI. Show Entity Type Code as well.
+                    if(!objectTypeCode) {
+                        // UCI - try getting the object type code using the internal API
+                        try {
+                            objectTypeCode = Xrm.Internal.getEntityCode(entityName);
+                        }
+                        catch (e) {
+                            /* do nothing */
+                        }
+                    }
+
+                    // Show object type code if known 
+                    if(!!objectTypeCode) {
                         values.push({
                             label: "Entity Type Code",
                             value: objectTypeCode
                         });
-                    }
-                    else {
-                        // UCI
-                        // TODO: Could retrieve this using a WebAPI metadata request instead
                     }
 
                     CrmPowerPane.UI.BuildOutputPopup(
