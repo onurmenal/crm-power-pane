@@ -282,18 +282,33 @@ $(function () {
 
             $("#entity-name").click(function () {
                 try {
+
+                    var values = [
+                        {
+                            label: "Entity Name",
+                            value: Xrm.Page.data.entity.getEntityName()
+                        }
+                    ];
+
+                    // The `etc` query string parameter is not available in UCI, so only show this
+                    // if it's available.
+                    var objectTypeCode = Xrm.Page.context.getQueryStringParameters().etc;
+                    if(typeof objectTypeCode !== 'undefined' && objectTypeCode !== null && objectTypeCode !== "") {
+                        // Classic UI. Show Entity Type Code as well.
+                        values.push({
+                            label: "Entity Type Code",
+                            value: objectTypeCode
+                        });
+                    }
+                    else {
+                        // UCI
+                        // TODO: Could retrieve this using a WebAPI metadata request instead
+                    }
+
                     CrmPowerPane.UI.BuildOutputPopup(
                                     "Entity info",
                                     "Entity schema name of current record.",
-                                    [{
-                                        label: "Entity Name",
-                                        value: Xrm.Page.data.entity.getEntityName()
-                                    },
-                                    {
-                                        label: "Entity Type Code",
-                                        value: Xrm.Page.context.getQueryStringParameters().etc
-                                    }
-                                    ]);
+                                    values);
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
