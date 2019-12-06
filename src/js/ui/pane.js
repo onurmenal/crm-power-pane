@@ -581,28 +581,28 @@ $(function () {
             $("#schema-names-as-desc").click(function () {
                 try {
                     var responsibleControls = ["standard", "optionset", "lookup"];
-                    Xrm.Page.ui.controls.forEach(function (e, t) {
-                        if (responsibleControls.indexOf(e.getControlType()) > -1)
+                    Xrm.Page.ui.controls.forEach(function (control) {
+                        if (responsibleControls.indexOf(control.getControlType()) > -1)
                         {
-                            var o = e.getName(),
-                            n = e.getLabel(),
-                            l = Content.$("#" + o + "_c");
-                            l.attr("title", o), l.off("click").click(function () {
-                                var e = document.queryCommandSupported("copy");
-                                if (e) {
-                                    var t = document.createElement("textarea");
-                                    t.style.position = "fixed", t.style.top = 0, t.style.left = 0, t.style.width = "2em", t.style.height = "2em", t.style.padding = 0, t.style.border = "none", t.style.outline = "none", t.style.boxShadow = "none", t.style.background = "transparent", t.value = o, document.body.appendChild(t), t.select();
+                            var attributeLogicalName = control.getName(),
+                            attributeLabel = control.getLabel(),
+                            $label = Content.$("#" + attributeLogicalName + "_c");
+                            $label.attr("title", attributeLogicalName), $label.off("click").click(function () {
+                                var canCopy = document.queryCommandSupported("copy");
+                                if (canCopy) {
+                                    var tempTextArea = document.createElement("textarea");
+                                    tempTextArea.style.position = "fixed", tempTextArea.style.top = 0, tempTextArea.style.left = 0, tempTextArea.style.width = "2em", tempTextArea.style.height = "2em", tempTextArea.style.padding = 0, tempTextArea.style.border = "none", tempTextArea.style.outline = "none", tempTextArea.style.boxShadow = "none", tempTextArea.style.background = "transparent", tempTextArea.value = attributeLogicalName, document.body.appendChild(tempTextArea), tempTextArea.select();
                                     try {
-                                        var l = document.execCommand("copy");
-                                        if (l) {
-                                            CrmPowerPane.UI.ShowNotification("Copied <b>\"" + o + "\"</b> to clipboard.", "success");
+                                        var didCopy = document.execCommand("copy");
+                                        if (didCopy) {
+                                            CrmPowerPane.UI.ShowNotification("Copied <b>\"" + attributeLogicalName + "\"</b> to clipboard.", "success");
                                         } else {
                                             CrmPowerPane.UI.ShowNotification("Copying failed. Please copy it yourself.", "error");
                                         }
                                     } catch (i) {
                                         console.log("Oops, unable to copy")
                                     }
-                                } else prompt("Copying is not supported. Please copy it yourself. " + n, o)
+                                } else prompt("Copying is not supported. Please copy it yourself. " + attributeLabel, attributeLogicalName)
                             })
                         }
                     });
