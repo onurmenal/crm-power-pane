@@ -276,6 +276,16 @@ $(function () {
                     return objectTypeCode;
             }
 
+            var _getAttributeContainer = function (attributeLogicalName) {
+                var $container = Content.$("#" + attributeLogicalName);
+
+                if(!$container.length) {
+                    $container = Content.$('[data-id="' + attributeLogicalName + '"]');
+                }
+
+                return $container;
+            }
+
             var _getLabelElement = function (attributeLogicalName) {
                 var $label = Content.$("#" + attributeLogicalName + "_c");
                 
@@ -778,7 +788,8 @@ $(function () {
                     Xrm.Page.ui.controls.forEach(function (control) {
                         var attr = (control && control.getAttribute) ? control.getAttribute() : undefined;
                         if (attr && attr.getIsDirty && attr.getIsDirty()) {
-                            Content.$("#" + control.getName()).css('background', '#FFFF00');
+                            var name = control.getName();
+                            _getAttributeContainer(name).css('background', '#FFFF00');
                         }
                     });
                     CrmPowerPane.UI.ShowNotification("Dirty fields were highlighted.");
