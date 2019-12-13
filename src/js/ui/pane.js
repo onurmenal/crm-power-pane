@@ -276,6 +276,19 @@ $(function () {
                     return objectTypeCode;
             }
 
+            var _getLabelElement = function (attributeLogicalName) {
+                var $label = Content.$("#" + attributeLogicalName + "_c");
+                
+                if(!$label.length) {
+                    // Try to get the label for UCI
+                    $label = Content.$("label", '[data-id="' + attributeLogicalName + '"]');
+                }
+
+                return $label.length 
+                    ? Content.$($label[0]) // TODO: refactor later - yuck. inefficient jquery wrapping
+                    : null;
+            }
+
             $(".crm-power-pane-subgroup").bindFirst('click', function () {
                 Content = CrmPowerPane.TargetFrame.GetContent();
                 Xrm = CrmPowerPane.TargetFrame.GetXrm();
@@ -586,24 +599,26 @@ $(function () {
                         {
                             var attributeLogicalName = control.getName(),
                             attributeLabel = control.getLabel(),
-                            $label = Content.$("#" + attributeLogicalName + "_c");
-                            $label.attr("title", attributeLogicalName), $label.off("click").click(function () {
-                                var canCopy = document.queryCommandSupported("copy");
-                                if (canCopy) {
-                                    var tempTextArea = document.createElement("textarea");
-                                    tempTextArea.style.position = "fixed", tempTextArea.style.top = 0, tempTextArea.style.left = 0, tempTextArea.style.width = "2em", tempTextArea.style.height = "2em", tempTextArea.style.padding = 0, tempTextArea.style.border = "none", tempTextArea.style.outline = "none", tempTextArea.style.boxShadow = "none", tempTextArea.style.background = "transparent", tempTextArea.value = attributeLogicalName, document.body.appendChild(tempTextArea), tempTextArea.select();
-                                    try {
-                                        var didCopy = document.execCommand("copy");
-                                        if (didCopy) {
-                                            CrmPowerPane.UI.ShowNotification("Copied <b>\"" + attributeLogicalName + "\"</b> to clipboard.", "success");
-                                        } else {
-                                            CrmPowerPane.UI.ShowNotification("Copying failed. Please copy it yourself.", "error");
+                            $label = _getLabelElement(attributeLogicalName)
+                            if($label) {
+                                $label.attr("title", attributeLogicalName), $label.off("click").click(function () {
+                                    var canCopy = document.queryCommandSupported("copy");
+                                    if (canCopy) {
+                                        var tempTextArea = document.createElement("textarea");
+                                        tempTextArea.style.position = "fixed", tempTextArea.style.top = 0, tempTextArea.style.left = 0, tempTextArea.style.width = "2em", tempTextArea.style.height = "2em", tempTextArea.style.padding = 0, tempTextArea.style.border = "none", tempTextArea.style.outline = "none", tempTextArea.style.boxShadow = "none", tempTextArea.style.background = "transparent", tempTextArea.value = attributeLogicalName, document.body.appendChild(tempTextArea), tempTextArea.select();
+                                        try {
+                                            var didCopy = document.execCommand("copy");
+                                            if (didCopy) {
+                                                CrmPowerPane.UI.ShowNotification("Copied <b>\"" + attributeLogicalName + "\"</b> to clipboard.", "success");
+                                            } else {
+                                                CrmPowerPane.UI.ShowNotification("Copying failed. Please copy it yourself.", "error");
+                                            }
+                                        } catch (i) {
+                                            console.log("Oops, unable to copy")
                                         }
-                                    } catch (i) {
-                                        console.log("Oops, unable to copy")
-                                    }
-                                } else prompt("Copying is not supported. Please copy it yourself. " + attributeLabel, attributeLogicalName)
-                            })
+                                    } else prompt("Copying is not supported. Please copy it yourself. " + attributeLabel, attributeLogicalName)
+                                })
+                            }
                         }
                     });
                     CrmPowerPane.UI.ShowNotification("Schema name mode is activated for descriptions. You can copy it with label click."); // ui message will change
