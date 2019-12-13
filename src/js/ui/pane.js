@@ -815,8 +815,13 @@ $(function () {
                                     ],
                                     function (popupObj) {
                                         var params = popupObj.Parameters;
-                                        var entityTypeCode = Mscrm.EntityPropUtil.EntityTypeName2CodeMap[params.entityname.value];
-                                        Mscrm.RibbonActions.openEntityEditor(entityTypeCode)
+                                        var entityName = params.entityname.value;
+                                        var entityTypeCode = Xrm.Internal.getEntityCode(entityName);
+                                        
+                                        // ref https://docs.microsoft.com/en-us/previous-versions/dynamicscrm-2016/developers-guide/gg328257(v=crm.8)?redirectedfrom=MSDN#constant-solutionid-values
+                                        var defaultSolutionId = "{FD140AAE-4DF4-11DD-BD17-0019B9312238}";
+                                        var entitiesCategoryCode = 9801; // undocumented
+                                        window.open(Content.Xrm.Page.context.getClientUrl() + "/tools/solution/edit.aspx?id=" + defaultSolutionId + "&def_category=" + entitiesCategoryCode + "&def_type=" + entityTypeCode)
                                     });
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to entity editor.", "error");
