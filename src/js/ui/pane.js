@@ -289,6 +289,17 @@ $(function () {
                     : null;
             }
 
+            var _getSelectElement = function (attributeLogicalName) {
+                var $select = Content.$('select.ms-crm-SelectBox[attrname=' + attributeLogicalName + ']');
+
+                if(!$select.length) {
+                    // Try to get the dropdown for UCI
+                    $select = Content.$("select", '[data-id="' + attributeLogicalName + '"]');
+                }
+                
+                return $select;
+            };
+
             $(".crm-power-pane-subgroup").bindFirst('click', function () {
                 Content = CrmPowerPane.TargetFrame.GetContent();
                 Xrm = CrmPowerPane.TargetFrame.GetXrm();
@@ -706,7 +717,7 @@ $(function () {
                     Xrm.Page.ui.controls.forEach(function (control) {
                         if (control.getControlType && control.getControlType() == "optionset") {
                             var name = control.getName();
-                            var $selectBox = Content.$('select.ms-crm-SelectBox[attrname=' + name + ']');
+                            var $selectBox = _getSelectElement(name)
 
                             var $options = ($selectBox) ? $selectBox.find("option") : null;
 
