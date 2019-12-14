@@ -626,7 +626,7 @@ $(function () {
                                     var canCopy = document.queryCommandSupported("copy");
                                     if (canCopy) {
                                         var tempTextArea = document.createElement("textarea");
-                                        tempTextArea.style.position = "fixed", tempTextArea.style.top = 0, tempTextArea.style.left = 0, tempTextArea.style.width = "2em", tempTextArea.style.height = "2em", tempTextArea.style.padding = 0, tempTextArea.style.border = "none", tempTextArea.style.outline = "none", tempTextArea.style.boxShadow = "none", tempTextArea.style.background = "transparent", tempTextArea.value = attributeLogicalName, document.body.appendChild(tempTextArea), tempTextArea.select();
+                                        tempTextArea.style.position = "absolute", tempTextArea.style.top = -9999, tempTextArea.style.left = -9999, tempTextArea.style.width = "2em", tempTextArea.style.height = "2em", tempTextArea.style.padding = 0, tempTextArea.style.border = "none", tempTextArea.style.outline = "none", tempTextArea.style.boxShadow = "none", tempTextArea.style.background = "transparent", tempTextArea.value = attributeLogicalName, document.body.appendChild(tempTextArea), tempTextArea.select();
                                         try {
                                             var didCopy = document.execCommand("copy");
                                             if (didCopy) {
@@ -637,6 +637,7 @@ $(function () {
                                         } catch (i) {
                                             console.log("Oops, unable to copy")
                                         }
+                                        tempTextArea.remove();
                                     } else prompt("Copying is not supported. Please copy it yourself. " + attributeLabel, attributeLogicalName)
                                 })
                             }
