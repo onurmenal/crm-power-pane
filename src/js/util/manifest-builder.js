@@ -45,6 +45,10 @@ const build = (target) => {
     manifest.web_accessible_resources.push("ui/*");
     manifest.web_accessible_resources.push("img/*");
 
+    manifest.background = {};
+    manifest.background.scripts = ["js/background.js"];
+    manifest.background.persistent  = false;
+
     // Chrome properties
     if(target === 'chrome') {
         manifest.options_page = "ui/options.html"
