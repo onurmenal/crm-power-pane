@@ -1,0 +1,71 @@
+name: '1.1.0.$(rev:r)'
+
+trigger:
+  - master
+
+stages:
+- stage: 'build'
+  jobs:
+  - job: 'build_job'
+    displayName: 'Build'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    workspace:
+      clean: all
+
+    steps:
+    - checkout: self
+      clean: true
+      
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - script: |
+        npm install --only=dev
+        npm install
+        npm run build-all
+      displayName: 'npm install and run all build scripts'
+    - publish: '$(build.sourcesDirectory)/dist/chrome'
+      artifact: 'chrome'
+    - publish: '$(build.sourcesDirectory)/dist/firefox'
+      artifact: 'firefox'
+    - publish: '$(build.sourcesDirectory)/dist/edge'
+      artifact: 'edge'
+      
+- stage: 'release_chrome_draft'
+  variables:
+    artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
+  jobs:
+  - job: 'release_chrome_draft_job'
+    displayName: 'Release to Chrome (Draft)'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: mkdir $(artifactsDirectory)
+      displayName: 'Create $(artifactsDirectory) directory'
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download all artifacts'
+      inputs:
+        targetPath: '$(artifactsDirectory)'
+    - task: ArchiveFiles@2
+      displayName: 'Archive chrome extension'
+      inputs:
+        rootFolderOrFile: '$(artifactsDirectory)/chrome' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
+    - script: |
+        echo "Obtaining an access token..."
+        ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${CODE}&grant_type=authorization_code&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
+        echo "Uploading $(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip..."
+        curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip" -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}"
+        echo "Publishing to trusted testers..."
+        curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -H "publishTarget: trustedTesters" -X POST -v "https://www.googleapis.com/chromewebstore/v1.1/items/${APP_ID}/publish"
+      env:
+        APP_ID: $(Chrome.WebStore.ExtensionId)
+        CLIENT_ID: $(Chrome.WebStore.ClientId)
+        CLIENT_SECRET: $(Chrome.WebStore.ClientSecret)
+        CODE: $(Chrome.WebStore.Code)
+
+# TODO: Add parallel draft release stages for firefox and edge (?)
