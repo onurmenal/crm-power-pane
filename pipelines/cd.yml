@@ -28,10 +28,13 @@ stages:
         npm run build-all
       displayName: 'npm install and run all build scripts'
     - publish: '$(build.sourcesDirectory)/dist/chrome'
+      displayName: 'Publish chrome artifacts'
       artifact: 'chrome'
     - publish: '$(build.sourcesDirectory)/dist/firefox'
+      displayName: 'Publish firefox artifacts'
       artifact: 'firefox'
     - publish: '$(build.sourcesDirectory)/dist/edge'
+      displayName: 'Publish edge artifacts'
       artifact: 'edge'
       
 - stage: 'release_chrome_draft'
