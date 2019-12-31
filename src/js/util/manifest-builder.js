@@ -1,4 +1,4 @@
-const build = (target) => {
+const build = (target, version) => {
 
     var manifest = {};
     
@@ -6,7 +6,7 @@ const build = (target) => {
     manifest.manifest_version = 2
     manifest.name = "Dynamics CRM Power Pane"
     manifest.short_name = "Dynamics CRM Power Pane"
-    manifest.version = "1.1.0"
+    manifest.version = version
     manifest.description = "The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamics CRM application and allow you to manipulate forms."
     manifest.content_security_policy = "script-src 'self'; object-src 'self'"
 

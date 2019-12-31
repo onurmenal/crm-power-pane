@@ -6,10 +6,15 @@ var gulp = require('gulp'),
     fs = require('fs'),
     manifestBuilder = require('./src/js/util/manifest-builder');
 
-var supportedTargets = ['chrome', 'firefox', 'edge'];
+var supportedTargets = require('./build/targets');
 if(supportedTargets.indexOf(argv.target) === -1) {
     console.error(`Target "${argv.target}" is not supported. Please use one of the following targets: ${supportedTargets.join(', ')}. Example usage: gulp [task-name] --target=chrome`);
     process.exit();
+}
+
+var buildVersion = argv.buildVersion;
+if(typeof buildVersion === 'undefined' || buildVersion === null || buildVersion === "") {
+    buildVersion = require('./package.json').version;
 }
 
 gulp.task('sass-ui', function(){
@@ -49,7 +54,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('manifest', ['ui', 'img', 'js'], function (cb) {
-    var manifest = manifestBuilder.build(argv.target);
+    var manifest = manifestBuilder.build(argv.target, buildVersion);
     var manifestJson = JSON.stringify(manifest, null, 2);
     return fs.writeFile(`dist/${argv.target}/manifest.json`, manifestJson, cb)
 });
