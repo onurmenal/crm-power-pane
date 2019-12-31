@@ -1,4 +1,4 @@
-name: '1.1.0.$(rev:r)'
+name: '1.1.0.$(build.buildId)'
 
 trigger:
   - master
@@ -25,5 +25,5 @@ stages:
     - script: |
         npm install --only=dev
         npm install
-        npm run build-all
+        npm run build-all -- --build-version=$(build.buildNumber)
       displayName: 'npm install and run all build scripts'
