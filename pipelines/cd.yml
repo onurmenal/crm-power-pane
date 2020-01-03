@@ -20,6 +20,7 @@ stages:
 
     steps:
     - checkout: self
+      persistCredentials: true
       clean: true
       
     - task: NodeTool@0
