@@ -57,7 +57,7 @@ stages:
         rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
         includeRootFolder: false 
         archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
-    - publish: '$(build.artifactStagingDirectory)/*.zip'
+    - publish: '$(build.artifactStagingDirectory)'
       displayName: 'Publish artifacts'
       artifact: 'drop'
 - stage: 'release_github'
