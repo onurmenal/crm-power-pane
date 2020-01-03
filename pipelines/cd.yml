@@ -3,6 +3,9 @@ name: '1.1.0.$(build.buildId)'
 trigger:
   - master
 
+variables:
+  artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
+
 stages:
 - stage: 'build'
   jobs:
@@ -27,22 +30,37 @@ stages:
         npm install
         npm run build-all -- --build-version=$(build.buildNumber)
       displayName: 'npm install and run all build scripts'
-    - publish: '$(build.sourcesDirectory)/dist/chrome'
+    - task: ArchiveFiles@2
+      displayName: 'Archive chrome extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/chrome' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
+    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
       displayName: 'Publish chrome artifacts'
-      artifact: 'chrome'
-    - publish: '$(build.sourcesDirectory)/dist/firefox'
+      artifact: '$(build.buildNumber).chrome.zip'
+    - task: ArchiveFiles@2
+      displayName: 'Archive firefox extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/firefox' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
+    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
       displayName: 'Publish firefox artifacts'
-      artifact: 'firefox'
-    - publish: '$(build.sourcesDirectory)/dist/edge'
+      artifact: '$(build.buildNumber).firefox.zip'
+    - task: ArchiveFiles@2
+      displayName: 'Archive edge extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
+    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
       displayName: 'Publish edge artifacts'
-      artifact: 'edge'
-      
-- stage: 'release_chrome_draft'
-  variables:
-    artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
+      artifact: '$(build.buildNumber).edge.zip'
+- stage: 'release_github'
   jobs:
-  - job: 'release_chrome_draft_job'
-    displayName: 'Release to Chrome (Draft)'
+  - job: 'release_github_job'
+    displayName: 'Release to GitHub'
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -52,17 +70,36 @@ stages:
       displayName: 'Download all artifacts'
       inputs:
         targetPath: '$(artifactsDirectory)'
-    - task: ArchiveFiles@2
-      displayName: 'Archive chrome extension'
+    - task: GitHubRelease@1
       inputs:
-        rootFolderOrFile: '$(artifactsDirectory)/chrome' 
-        includeRootFolder: false 
-        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
+        gitHubConnection: 'azure-pipelines-github-release'
+        repositoryName: '$(build.repository.name)'
+        action: 'create'
+        target: '$(build.sourceVersion)'
+        tagSource: 'gitTag'
+        assets: '$(artifactsDirectory)/*.zip'
+        isPreRelease: true
+        changeLogCompareToRelease: 'lastFullRelease'
+        changeLogType: 'commitBased'
+- stage: 'release_chrome_draft'
+  jobs:
+  - job: 'release_chrome_draft_job'
+    displayName: 'Release to Chrome (Draft)'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: mkdir $(artifactsDirectory)
+      displayName: 'Create $(artifactsDirectory) directory'
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download $(build.buildNumber).chrome.zip'
+      inputs:
+        artifact: '$(build.buildNumber).chrome.zip'
+        targetPath: '$(artifactsDirectory)'
     - script: |
         echo "Obtaining an access token..."
         ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${CODE}&grant_type=authorization_code&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
-        echo "Uploading $(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip..."
-        UPLOAD_RESPONSE=$(curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip" -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}")
+        echo "Uploading $(artifactsDirectory)/$(build.buildNumber).chrome.zip..."
+        UPLOAD_RESPONSE=$(curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "$(artifactsDirectory)/$(build.buildNumber).chrome.zip" -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}")
         UPLOAD_STATE=$(echo ${UPLOAD_RESPONSE} | jq -r .uploadState)
         if [ ${UPLOAD_STATE} != "FAILURE" ];
         then
