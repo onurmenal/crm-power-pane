@@ -8,6 +8,7 @@ variables:
 
 stages:
 - stage: 'build'
+  displayName: 'Build'
   jobs:
   - job: 'build_job'
     displayName: 'Build'
@@ -30,6 +31,13 @@ stages:
         npm install
         npm run build-all -- --build-version=$(build.buildNumber)
       displayName: 'npm install and run all build scripts'
+    - script: |
+        echo "Tagging Build: ${BUILD_NUMBER}"
+        git tag ${BUILD_NUMBER}
+        git push origin ${BUILD_NUMBER}
+      displayName: 'Tag the build'
+      env:
+        BUILD_NUMBER: $(build.buildNumber)
     - task: ArchiveFiles@2
       displayName: 'Archive chrome extension'
       inputs:
@@ -58,6 +66,7 @@ stages:
       displayName: 'Publish edge artifacts'
       artifact: '$(build.buildNumber).edge.zip'
 - stage: 'release_github'
+  displayName: 'Release to GitHub'
   jobs:
   - deployment: 'release_github_job'
     displayName: 'Release to GitHub'
@@ -86,9 +95,10 @@ stages:
               changeLogCompareToRelease: 'lastFullRelease'
               changeLogType: 'commitBased'
 - stage: 'release_chrome_draft'
+  displayName: 'Release to Chrome Web Store (Draft)'
   jobs:
   - deployment: 'release_chrome_draft_job'
-    displayName: 'Release to Chrome (Draft)'
+    displayName: 'Release to Chrome Web Store (Draft)'
     environment: 'Chrome Web Store (Draft)'
     pool:
       vmImage: 'ubuntu-latest'
