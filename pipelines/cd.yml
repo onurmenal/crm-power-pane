@@ -45,27 +45,21 @@ stages:
         rootFolderOrFile: '$(build.sourcesDirectory)/dist/chrome' 
         includeRootFolder: false 
         archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
-    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
-      displayName: 'Publish chrome artifacts'
-      artifact: '$(build.buildNumber).chrome.zip'
     - task: ArchiveFiles@2
       displayName: 'Archive firefox extension'
       inputs:
         rootFolderOrFile: '$(build.sourcesDirectory)/dist/firefox' 
         includeRootFolder: false 
         archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
-    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
-      displayName: 'Publish firefox artifacts'
-      artifact: '$(build.buildNumber).firefox.zip'
     - task: ArchiveFiles@2
       displayName: 'Archive edge extension'
       inputs:
         rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
         includeRootFolder: false 
         archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
-    - publish: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
-      displayName: 'Publish edge artifacts'
-      artifact: '$(build.buildNumber).edge.zip'
+    - publish: '$(build.artifactStagingDirectory)/*.zip'
+      displayName: 'Publish artifacts'
+      artifact: 'drop'
 - stage: 'release_github'
   displayName: 'Release to GitHub'
   jobs:
@@ -91,7 +85,7 @@ stages:
               action: 'create'
               target: '$(build.sourceVersion)'
               tagSource: 'gitTag'
-              assets: '$(artifactsDirectory)/*.zip'
+              assets: '$(artifactsDirectory)/drop/*.zip'
               isPreRelease: true
               changeLogCompareToRelease: 'lastFullRelease'
               changeLogType: 'commitBased'
@@ -110,15 +104,14 @@ stages:
           - script: mkdir $(artifactsDirectory)
             displayName: 'Create $(artifactsDirectory) directory'
           - task: DownloadPipelineArtifact@2
-            displayName: 'Download $(build.buildNumber).chrome.zip'
+            displayName: 'Download all artifacts'
             inputs:
-              artifact: '$(build.buildNumber).chrome.zip'
               targetPath: '$(artifactsDirectory)'
           - script: |
               echo "Obtaining an access token..."
               ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${CODE}&grant_type=authorization_code&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
-              echo "Uploading $(artifactsDirectory)/$(build.buildNumber).chrome.zip..."
-              UPLOAD_RESPONSE=$(curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "$(artifactsDirectory)/$(build.buildNumber).chrome.zip" -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}")
+              echo "Uploading $(artifactsDirectory)/drop/$(build.buildNumber).chrome.zip..."
+              UPLOAD_RESPONSE=$(curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T "$(artifactsDirectory)/drop/$(build.buildNumber).chrome.zip" -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}")
               UPLOAD_STATE=$(echo ${UPLOAD_RESPONSE} | jq -r .uploadState)
               if [ ${UPLOAD_STATE} != "FAILURE" ];
               then
