@@ -18,6 +18,7 @@ I tested the extension for the following browsers:
   - [ ] Google Chrome
   - [ ] Mozilla Firefox
   - [ ] Microsoft Edge
+  - [ ] Microsoft Edge (Chromium)
 
 I tested the extension on the following versions of the product:
  - [ ] Dynamics 365 v9
