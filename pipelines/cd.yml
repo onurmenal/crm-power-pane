@@ -57,6 +57,12 @@ stages:
         rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
         includeRootFolder: false 
         archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
+    - task: ArchiveFiles@2
+      displayName: 'Archive edge-chromium extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge-chromium' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge-chromium.zip'
     - publish: '$(build.artifactStagingDirectory)'
       displayName: 'Publish artifacts'
       artifact: 'drop'

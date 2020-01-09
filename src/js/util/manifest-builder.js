@@ -72,6 +72,12 @@ const build = (target, version) => {
         manifest.browser_action.default_icon[35] = "img/icon-32.png"
     }
     
+    // Chrome properties
+    if(target === 'edge-chromium') {
+        manifest.options_page = "ui/options.html"
+        manifest.browser_action.default_icon = "img/icon-48.png"
+    }
+    
     // TODO: Add firefox and edge-specific conversions.
     return manifest;
 }
