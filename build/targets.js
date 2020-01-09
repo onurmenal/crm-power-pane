@@ -1,5 +1,6 @@
 module.exports = [
     "chrome",
     "firefox",
-    "edge"
+    "edge",
+    "edge-chromium"
 ]
