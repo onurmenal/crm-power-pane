@@ -4,7 +4,7 @@ var execSync = require('child_process').execSync,
 
 var buildVersion = argv.buildVersion;
 if(typeof buildVersion === 'undefined' || buildVersion === null || buildVersion === "") {
-    buildVersion = require('./package.json').version;
+    buildVersion = require('../package.json').version;
 }
 
 targets.forEach(target => {
