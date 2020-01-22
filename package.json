@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-chrome": "gulp --target=chrome",
-    "build-firefox": "gulp --target=firefox",
-    "build-edge": "gulp --target=edge",
-    "build-all": "npm run build-chrome & npm run build-firefox & npm run build-edge"
+    "build": "gulp",
+    "build-chrome": "npm run build -- --target=chrome",
+    "build-firefox": "npm run build -- --target=firefox",
+    "build-edge": "npm run build -- --target=edge",
+    "build-all": "node ./build/all"
   },
   "author": "Onur Menal",
   "license": "ISC",

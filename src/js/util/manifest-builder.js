@@ -1,4 +1,4 @@
-const build = (target) => {
+const build = (target, version) => {
 
     var manifest = {};
     
@@ -6,7 +6,7 @@ const build = (target) => {
     manifest.manifest_version = 2
     manifest.name = "Dynamics CRM Power Pane"
     manifest.short_name = "Dynamics CRM Power Pane"
-    manifest.version = "1.1.0"
+    manifest.version = version
     manifest.description = "The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamics CRM application and allow you to manipulate forms."
     manifest.content_security_policy = "script-src 'self'; object-src 'self'"
 
@@ -74,6 +74,12 @@ const build = (target) => {
         manifest.browser_action.default_icon = {};
         manifest.browser_action.default_icon[30] = "img/icon-32.png"
         manifest.browser_action.default_icon[35] = "img/icon-32.png"
+    }
+    
+    // Chrome properties
+    if(target === 'edge-chromium') {
+        manifest.options_page = "ui/options.html"
+        manifest.browser_action.default_icon = "img/icon-48.png"
     }
     
     // TODO: Add firefox and edge-specific conversions.
