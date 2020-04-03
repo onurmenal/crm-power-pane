@@ -48,7 +48,7 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     padding: 10px 0px;
     font-size: 14px;
     box-shadow: 5px 5px 5px #CCC;
-    clear:both;
+    clear: both;
 }
 
 .crm-power-pane-scrolling-container {
@@ -96,8 +96,9 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
         height: 35px;
     }
 
-    span:hover {
+    span:not(.icon):hover {
         background-color: #DFDFDF !important;
+        cursor: pointer;
     }
 
     span.icon {
@@ -227,12 +228,11 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     span.create-form {
         background: url('#{$browserPrefix}/img/action-icons/create.png');
     }
-
 }
 
 #crm-power-pane-notification {
     position: absolute;
-    width: 200px;
+    min-width: 200px;
     border: 1px solid #DDD;
     border-radius: 8px;
     padding: 7px;
@@ -300,7 +300,7 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
 .crm-power-pane-advenced-popup {
     display: none;
     width: 750px;
-    height:70%;
+    height:auto;
     background-color: white;
     box-shadow: 0px 0px 15px black;
     border: 1px solid #999;
@@ -308,7 +308,7 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     left: 32%;
     top: 10%;
     margin-left: -185px;
-    padding: 20px 20px 40px 20px;
+    padding: 20px 20px 50px 20px;
 }
 
 #crm-power-pane-fetchxml-popup ul {
@@ -381,17 +381,22 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     font-size: 27px;
     font-weight: Lighter;
     display: block;
-    line-height: 28px;
-    height: 100% !important;
     max-width: 400px;
-    height:28px!important;
     margin-right: 21px;
     padding-left: 0px;
     font-family: Segoe\000020UI,Tahoma,Arial;
+    padding-top: 5px;
+    height: 20px !important;
+    padding-bottom:18px!important
 }
 
-.crm-power-pane-popup-input-text{
-    margin-top:5px!important;
+.crm-power-pane-popup-description{
+    
+    padding-bottom:10px;
+}
+
+.crm-power-pane-popup-input-text {
+    margin-top: 5px !important;
 }
 
 
@@ -504,4 +509,8 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     td {
         height:22px;
     }
+}
+
+#crm-power-pane-fetchxml-popup-container ul li {
+    list-style-type: none;
 }

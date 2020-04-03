@@ -1,4 +1,3 @@
-/// <reference path="XrmServiceToolkit.js" />
 $(function () {
     var CrmPowerPane = {
         ApplicationType: {
@@ -154,6 +153,29 @@ $(function () {
                 $(".crm-power-pane-subgroup .icon").css("background-color", color);
                 $(".crm-power-pane-header").css("color", color);
 
+            }
+        },
+        Utils: {
+            PrettifyXml: function (sourceXml) {
+                var xmlDoc = new DOMParser().parseFromString(sourceXml, 'application/xml');
+                var xsltDoc = new DOMParser().parseFromString([
+                    '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
+                    '  <xsl:strip-space elements="*"/>',
+                    '  <xsl:template match="para[content-style][not(text())]">', // change to just text() to strip space in text nodes
+                    '    <xsl:value-of select="normalize-space(.)"/>',
+                    '  </xsl:template>',
+                    '  <xsl:template match="node()|@*">',
+                    '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
+                    '  </xsl:template>',
+                    '  <xsl:output indent="yes"/>',
+                    '</xsl:stylesheet>',
+                ].join('\n'), 'application/xml');
+
+                var xsltProcessor = new XSLTProcessor();
+                xsltProcessor.importStylesheet(xsltDoc);
+                var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+                var resultXml = new XMLSerializer().serializeToString(resultDoc);
+                return resultXml;
             }
         },
         ServiceOperations: {
@@ -547,7 +569,7 @@ $(function () {
                         } catch (e) { }
                     });
 
-                    Xrm.Page.ui.tabs.getAll().forEach(function (t) {
+                    Xrm.Page.ui.tabs.forEach(function (t) {
                         try {
                             if (t.setVisible) {
                                 t.setVisible(true);
@@ -1071,17 +1093,40 @@ $(function () {
             });
 
             $("#crm-power-pane-popup-ok-fetch").click(function () {
+                var xml = $("#crm-power-pane-tab1 textarea").val();
+                if (xml.trim() == "") {
+                    return;
+                }
+
                 var $resultArea = $("#crm-power-pane-fetchxml-result-area");
                 $resultArea.val("");
+                
+                var request = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body>';
+                request += '<Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">' + '<request i:type="b:RetrieveMultipleRequest" ' + ' xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" ' + ' xmlns:i="http://www.w3.org/2001/XMLSchema-instance">' + '<b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">' + '<b:KeyValuePairOfstringanyType>' + '<c:key>Query</c:key>' + '<c:value i:type="b:FetchExpression">' + '<b:Query>';
+                request += CrmEncodeDecode.CrmXmlEncode(xml);
+                request += '</b:Query>' + '</c:value>' + '</b:KeyValuePairOfstringanyType>' + '</b:Parameters>' + '<b:RequestId i:nil="true"/>' + '<b:RequestName>RetrieveMultiple</b:RequestName>' + '</request>' + '</Execute>';
+                request += '</s:Body></s:Envelope>';
 
-                var xml = $("#crm-power-pane-tab1 textarea").val();
-
-                if (xml && xml != "") {
-                    var result = XrmServiceToolkit.Soap.Fetch(xml);
-                    var $resultArea = $("#crm-power-pane-fetchxml-result-area")
-                    $resultArea.val(JSON.stringify(result, null, 2));
-                    $("#crm-power-pane-fetchxml-popup-container ul li").eq($resultArea.parent().index()).trigger("click");
-                }
+                $.ajax({
+                    type: "POST",
+                    url: Xrm.Page.context.getClientUrl() + "/XRMServices/2011/Organization.svc/web",
+                    contentType: "text/xml",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Accept", "application/xml, text/xml, */*");
+                        xhr.setRequestHeader("SoapAction", "http://schemas.microsoft.com/xrm/2011/Contracts/Services/IOrganizationService/Execute");
+                    },
+                    data: request,
+                    dataType: "text",
+                    processData: false,
+                    success: function (data, status, req) {
+                            $resultArea.val(CrmPowerPane.Utils.PrettifyXml(data));
+                            $("#crm-power-pane-fetchxml-popup-container ul li").eq($resultArea.parent().index()).trigger("click");
+                    },
+                    error: function (err) {
+                        //TODO: Error will display in result area with red color.
+                    }
+                });
+                return;
             });
 
             $("#solutions").click(function () {

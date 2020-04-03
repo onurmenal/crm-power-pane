@@ -98,53 +98,20 @@
                 ribbon.prepend(powerPaneButton);
             }
 
+            return true;
+
         } else if (applicationType == ApplicationType.Dynamics365) {
             var officeWaffle = document.querySelector("button[data-id=officewaffle]");
 
             if (officeWaffle) {
                 officeWaffle.before(powerPaneButton);
             }
+
+            return true;
         }
+
+        return false;
     };
-
-    function InjectPowerPane() {
-        if (GetAppicationType()) {
-
-            var powerPaneButton = document.getElementById("crm-power-pane-button");
-
-            if (!powerPaneButton) {
-                InjectPowerPaneButton();
-
-                var powerPaneTemplate = browser.extension.getURL("ui/pane.html");
-
-                xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("GET", powerPaneTemplate, true);
-
-                xmlHttp.onreadystatechange = function () {
-                    if (xmlHttp.readyState == XMLHttpRequest.DONE) {
-                        if (xmlHttp.status == 200) {
-                            var content = document.createElement("div");
-                            content.innerHTML = xmlHttp.responseText
-                            content.className = "crm-power-pane-container";
-
-                            var style = BuildSytleTag(browser.extension.getURL("ui/css/pane.css"));
-                            var script = BuildScriptTag(browser.extension.getURL("ui/js/pane.js"));
-
-                            InjectSource([style, script, content]);
-                        }
-                        else if (xmlHttp.status == 400) {
-                            alert('There was an error 400');
-                        }
-                        else {
-                            alert('something else other than 200 was returned');
-                        }
-                    }
-                };
-
-                xmlHttp.send();
-            }
-        }
-    }
 
     function Initialize() {
         Interval.PowerPaneControl.Pointer = setInterval(function () {
@@ -157,7 +124,10 @@
             var powerPaneButton = document.getElementById("crm-power-pane-button");
 
             if (!powerPaneButton) {
-                InjectPowerPaneButton();
+                var injectButtonResult = InjectPowerPaneButton();
+                if (injectButtonResult == false) {
+                    return;
+                }
 
                 var powerPaneTemplate = browser.extension.getURL("ui/pane.html");
 
