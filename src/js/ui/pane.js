@@ -728,7 +728,7 @@ $(function () {
                             
                             var linkId = control.getName() + "-lookup-link";
                             var externalIcon = '<svg id="i-external" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14 9 L3 9 3 29 23 29 23 18 M18 4 L28 4 28 14 M28 4 L14 18" /></svg>';
-                            var openInNewWindowLink = $('<a id="' + linkId + '" class="lookup-link" alt="Open this record in a new window" title="Open this record in a new window"  style="cursor: pointer;margin-left: 5px">' + externalIcon + '</a>');
+                            var openInNewWindowLink = $('<a id="' + linkId + '" class="crm-power-pane-lookup-link" alt="Open this record in a new window" title="Open this record in a new window"  style="cursor: pointer;margin-left: 5px">' + externalIcon + '</a>');
                             Content.$("#" + control.getName()).append(openInNewWindowLink);
                             Content.$(openInNewWindowLink).click(function () {
                                 try {
@@ -1100,6 +1100,7 @@ $(function () {
 
                 var $resultArea = $("#crm-power-pane-fetchxml-result-area");
                 $resultArea.val("");
+                $resultArea.css("color", "#000000");
                 
                 var request = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body>';
                 request += '<Execute xmlns="http://schemas.microsoft.com/xrm/2011/Contracts/Services">' + '<request i:type="b:RetrieveMultipleRequest" ' + ' xmlns:b="http://schemas.microsoft.com/xrm/2011/Contracts" ' + ' xmlns:i="http://www.w3.org/2001/XMLSchema-instance">' + '<b:Parameters xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.Generic">' + '<b:KeyValuePairOfstringanyType>' + '<c:key>Query</c:key>' + '<c:value i:type="b:FetchExpression">' + '<b:Query>';
@@ -1123,7 +1124,11 @@ $(function () {
                             $("#crm-power-pane-fetchxml-popup-container ul li").eq($resultArea.parent().index()).trigger("click");
                     },
                     error: function (err) {
-                        //TODO: Error will display in result area with red color.
+                        var errorDetails = err.statusText + "\n";
+                        errorDetails += err.responseText;
+                        $resultArea.val(errorDetails);
+                        $resultArea.css("color", "red");
+                        $("#crm-power-pane-fetchxml-popup-container ul li").eq($resultArea.parent().index()).trigger("click");
                     }
                 });
                 return;
