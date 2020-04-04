@@ -4,14 +4,14 @@ const build = (target, version) => {
     
     // Common properties
     manifest.manifest_version = 2
-    manifest.name = "Dynamics CRM Power Pane"
-    manifest.short_name = "Dynamics CRM Power Pane"
+    manifest.name = "Dynamics 365 Power Pane"
+    manifest.short_name = "Dynamics 365 Power Pane"
     manifest.version = version
-    manifest.description = "The CRM Power Pane is a helper tool designed to integrate with Microsoft Dynamics CRM application and allow you to manipulate forms."
+    manifest.description = "The Dynamics 365 Power Pane is a helper tool designed to integrate with Microsoft Dynamics CRM and Dynamics 365 application and allow you to manipulate forms."
     manifest.content_security_policy = "script-src 'self'; object-src 'self'"
 
     manifest.browser_action = {};
-    manifest.browser_action.default_title = "Dynamics CRM Power Pane"
+    manifest.browser_action.default_title = "Dynamics 365 Power Pane"
 
     manifest.icons = {};
     manifest.icons[32] = "img/icon-32.png"
@@ -44,6 +44,10 @@ const build = (target, version) => {
     manifest.web_accessible_resources = [];
     manifest.web_accessible_resources.push("ui/*");
     manifest.web_accessible_resources.push("img/*");
+
+    manifest.background = {};
+    manifest.background.scripts = ["js/background.js"];
+    manifest.background.persistent  = false;
 
     // Chrome properties
     if(target === 'chrome') {
