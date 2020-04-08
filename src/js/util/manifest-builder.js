@@ -7,7 +7,7 @@ const build = (target, version) => {
     manifest.name = "Dynamics 365 Power Pane"
     manifest.short_name = "Dynamics 365 Power Pane"
     manifest.version = version
-    manifest.description = "The Dynamics 365 Power Pane is a helper tool designed to integrate with Dynamics CRM/365 application and allow you to manipulate forms."
+    manifest.description = "Dynamics 365 Power Pane is a helper tool designed to integrate with Dynamics CRM/365 application and allow you to manipulate forms."
     manifest.content_security_policy = "script-src 'self'; object-src 'self'"
 
     manifest.browser_action = {};
