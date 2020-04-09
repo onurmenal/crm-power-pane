@@ -37,7 +37,6 @@ stages:
               target: '$(build.sourceVersion)'
               tagSource: 'gitTag'
               assets: '$(artifactsDirectory)/drop/*.zip'
-              isPreRelease: true
               changeLogCompareToRelease: 'lastFullRelease'
               changeLogType: 'commitBased'
 - stage: 'release_chrome_draft'
