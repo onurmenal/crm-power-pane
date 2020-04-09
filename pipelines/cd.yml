@@ -7,65 +7,10 @@ variables:
   artifactsDirectory: '$(Pipeline.Workspace)/artifacts'
 
 stages:
-- stage: 'build'
-  displayName: 'Build'
-  jobs:
-  - job: 'build_job'
-    displayName: 'Build'
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    workspace:
-      clean: all
-
-    steps:
-    - checkout: self
-      persistCredentials: true
-      clean: true
-      
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-      displayName: 'Install Node.js'
-    - script: |
-        npm install --only=dev
-        npm install
-        npm run build-all -- --build-version=$(build.buildNumber)
-      displayName: 'npm install and run all build scripts'
-    - script: |
-        echo "Tagging Build: ${BUILD_NUMBER}"
-        git tag ${BUILD_NUMBER}
-        git push origin ${BUILD_NUMBER}
-      displayName: 'Tag the build'
-      env:
-        BUILD_NUMBER: $(build.buildNumber)
-    - task: ArchiveFiles@2
-      displayName: 'Archive chrome extension'
-      inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)/dist/chrome' 
-        includeRootFolder: false 
-        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
-    - task: ArchiveFiles@2
-      displayName: 'Archive firefox extension'
-      inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)/dist/firefox' 
-        includeRootFolder: false 
-        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
-    - task: ArchiveFiles@2
-      displayName: 'Archive edge extension'
-      inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
-        includeRootFolder: false 
-        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
-    - task: ArchiveFiles@2
-      displayName: 'Archive edge-chromium extension'
-      inputs:
-        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge-chromium' 
-        includeRootFolder: false 
-        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge-chromium.zip'
-    - publish: '$(build.artifactStagingDirectory)'
-      displayName: 'Publish artifacts'
-      artifact: 'drop'
+- template: templates/stages/build.yml
+  parameters:
+    tag: true
+    publish: true
 - stage: 'release_github'
   displayName: 'Release to GitHub'
   jobs:

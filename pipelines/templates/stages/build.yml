@@ -1,0 +1,70 @@
+parameters:
+  tag: false # true if the source needs to be tagged
+  publish: false # true if artifacts need to be published
+
+stages:
+- stage: 'build'
+  displayName: 'Build'
+  jobs:
+  - job: 'build_job'
+    displayName: 'Build'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    workspace:
+      clean: all
+
+    steps:
+    - checkout: self
+      persistCredentials: true
+      clean: true
+      
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - script: |
+        npm install --only=dev
+        npm install
+        npm run build-all -- --build-version=$(build.buildNumber)
+      displayName: 'npm install and run all build scripts'
+    - script: |
+        echo "Tagging Build: ${BUILD_NUMBER}"
+        git tag ${BUILD_NUMBER}
+        git push origin ${BUILD_NUMBER}
+      displayName: 'Tag the build'
+      env:
+        BUILD_NUMBER: $(build.buildNumber)
+      condition: and(succeeded(), eq(${{ parameters.tag }}, true))
+    - task: ArchiveFiles@2
+      displayName: 'Archive chrome extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/chrome' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).chrome.zip'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))
+    - task: ArchiveFiles@2
+      displayName: 'Archive firefox extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/firefox' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).firefox.zip'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))
+    - task: ArchiveFiles@2
+      displayName: 'Archive edge extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge.zip'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))
+    - task: ArchiveFiles@2
+      displayName: 'Archive edge-chromium extension'
+      inputs:
+        rootFolderOrFile: '$(build.sourcesDirectory)/dist/edge-chromium' 
+        includeRootFolder: false 
+        archiveFile: '$(build.artifactStagingDirectory)/$(build.buildNumber).edge-chromium.zip'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))      
+    - publish: '$(build.artifactStagingDirectory)'
+      displayName: 'Publish artifacts'
+      artifact: 'drop'
+      condition: and(succeeded(), eq(${{ parameters.publish }}, true))
