@@ -828,6 +828,15 @@ $(function () {
                 }
             });
 
+            $("#clear-all-notifications").click(function () {
+                Xrm.Page.ui.controls.forEach(function (c) {
+                    try {
+                        c.clearNotification();
+                    } catch (e) { }
+                });
+                CrmPowerPane.UI.ShowNotification("Notifications of all fields have been cleared.");
+            });
+
             $("#open-entity-editor").click(function () {
                 try {
                     CrmPowerPane.UI.BuildInputPopup(
@@ -1135,10 +1144,7 @@ $(function () {
             });
 
             $("#solutions").click(function () {
-                var $popupBg = $("#crm-power-pane-popup-bg");
-                $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
-                var $solutionsPopup = $("#crm-power-pane-solutions-popup");
-                $solutionsPopup.fadeIn(CrmPowerPane.Constants.SlideTime);
+                window.open(Xrm.Page.context.getClientUrl() +"/tools/Solution/home_solution.aspx?etc=7100" , '_blank');
             });
         }
     };

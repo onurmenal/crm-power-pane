@@ -207,6 +207,10 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
         background: url('#{$browserPrefix}/img/action-icons/dirty.png');
     }
 
+    span.clear-all-notifications-icon {
+        background: url('#{$browserPrefix}/img/action-icons/clear-all-notifications.png');
+    }
+
     span.show-field-value-icon {
         background: url('#{$browserPrefix}/img/action-icons/input.png');
     }
