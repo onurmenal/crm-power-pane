@@ -344,13 +344,14 @@ $(function () {
                 Xrm = CrmPowerPane.TargetFrame.GetXrm();
             });
 
-            $("#crm-power-pane-button").click(function (e) {
+
+            $(document).on("click", "#crm-power-pane-button", function (e) {
                 $(".crm-power-pane-sections").slideToggle(CrmPowerPane.Constants.SlideTime);
                 e.stopPropagation();
             });
 
             // Hide the pane if it is already open and the user clicked somewhere else.
-            $(window).on("click", function () {
+            $(document).on("click", function () {
                 $(".crm-power-pane-sections").delay(100).slideUp(CrmPowerPane.Constants.SlideTime);
             });
 
@@ -543,7 +544,7 @@ $(function () {
                                     }
                                     ]);
                 } catch (e) {
-                    CrmPowerPane.Errors.WrongPageWarning();
+                    CrmPowerPane.UI.ShowNotification("An error occurred while getting the user information.","error");
                 }
             });
 
@@ -800,10 +801,6 @@ $(function () {
                 window.open(Content.Xrm.Page.context.getClientUrl() + "/tools/diagnostics/diag.aspx");
             });
 
-            $("#mobile-express").click(function () {
-                window.open(Content.Xrm.Page.context.getClientUrl() + "/m");
-            });
-
             $("#mobile-client").click(function () {
                 var url = Content.Xrm.Page.context.getClientUrl(); 
                 window.open(url + "/nga/main.htm?org=" + Content.Xrm.Page.context.getOrgUniqueName() + "&server=" + url); 
@@ -828,6 +825,19 @@ $(function () {
                 }
             });
 
+            $("#clear-all-notifications").click(function () {
+                try {
+                    Xrm.Page.ui.controls.forEach(function (c) {
+                        try {
+                            c.clearNotification();
+                        } catch (e) { }
+                    });
+                    CrmPowerPane.UI.ShowNotification("Notifications of all fields have been cleared.");
+                } catch (e) {
+                    CrmPowerPane.Errors.WrongPageWarning();
+                }
+            });
+
             $("#open-entity-editor").click(function () {
                 try {
                     CrmPowerPane.UI.BuildInputPopup(
@@ -844,14 +854,18 @@ $(function () {
                                         }
                                     ],
                                     function (popupObj) {
-                                        var params = popupObj.Parameters;
-                                        var entityName = params.entityname.value;
-                                        var entityTypeCode = Xrm.Internal.getEntityCode(entityName);
+                                        var entityDetail = "";
+                                        var entityName = popupObj.Parameters.entityname.value;
+                                        if (entityName && entityName.trim() != "") {
+                                            var entityTypeCode = Xrm.Internal.getEntityCode(entityName);
+                                            var entitiesCategoryCode = 9801; // undocumented
+                                            entityDetail = "&def_category=" + entitiesCategoryCode + "&def_type=" + entityTypeCode
+                                        }
                                         
                                         // ref https://docs.microsoft.com/en-us/previous-versions/dynamicscrm-2016/developers-guide/gg328257(v=crm.8)?redirectedfrom=MSDN#constant-solutionid-values
                                         var defaultSolutionId = "{FD140AAF-4DF4-11DD-BD17-0019B9312238}";
-                                        var entitiesCategoryCode = 9801; // undocumented
-                                        window.open(Content.Xrm.Page.context.getClientUrl() + "/tools/solution/edit.aspx?id=" + defaultSolutionId + "&def_category=" + entitiesCategoryCode + "&def_type=" + entityTypeCode)
+
+                                        window.open(Content.Xrm.Page.context.getClientUrl() + "/tools/solution/edit.aspx?id=" + defaultSolutionId + entityDetail);
                                     });
                 } catch (e) {
                     CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to entity editor.", "error");
@@ -1005,7 +1019,7 @@ $(function () {
 
             $("#clone-record").click(function () {
                 try {
-                    var excludedFields = ["createdon", "createdby", "modifiedon", "modifiedby", "ownerid","vrp_numberofchildincidents"];
+                    var excludedFields = ["createdon", "createdby", "modifiedon", "modifiedby", "ownerid"];
                     var collectedFields = [];
 
                     Xrm.Page.data.entity.attributes.forEach(function (a) {
@@ -1135,10 +1149,35 @@ $(function () {
             });
 
             $("#solutions").click(function () {
-                var $popupBg = $("#crm-power-pane-popup-bg");
-                $popupBg.fadeIn(CrmPowerPane.Constants.SlideTime);
-                var $solutionsPopup = $("#crm-power-pane-solutions-popup");
-                $solutionsPopup.fadeIn(CrmPowerPane.Constants.SlideTime);
+                window.open(Xrm.Page.context.getClientUrl() +"/tools/Solution/home_solution.aspx?etc=7100" , '_blank');
+            });
+
+            $("#go-to-create-form").click(function () {
+                try {
+                    CrmPowerPane.UI.BuildInputPopup(
+                        "Go to create form", 
+                        "Redirects you to create form of specified entity. ",
+                        [
+                            {
+                                label: "Entity Schema Name",
+                                name: "entityname"
+                            }
+                        ],
+                        function (popupObj) {
+                            var params = popupObj.Parameters;
+                            if (params.entityname.value) {
+                                var linkProps = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
+                                linkProps.push("?etn=" + params.entityname.value.toLowerCase());
+                                linkProps.push("&newWindow=true");
+                                linkProps.push("&pagetype=entityrecord");
+                                window.open(linkProps.join(""), '_blank');
+                            } else {
+                                CrmPowerPane.UI.ShowNotification("Entity name is required. Please fill it and try again.", "warning");
+                            }
+                        });
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to specified create form.", "error");
+                }
             });
         }
     };

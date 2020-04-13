@@ -79,7 +79,14 @@
     }
 
     function InjectSource(sources) {
-        body = document.querySelector('body[scroll=no]') || document.querySelector('body');
+
+        var isPowerPaneInjected = Array.from(window.top.document.scripts).find(function (elem) { return elem.src.indexOf("ui/js/pane.js") > -1 });
+
+        if (isPowerPaneInjected != undefined) { //power pane already injected
+            return;
+        }
+
+        body = window.top.document.querySelector('body[scroll=no]') || window.top.document.querySelector('body');
 
         sources.forEach(function (s) {
             body.appendChild(s);
@@ -92,7 +99,7 @@
         var applicationType = GetAppicationType();
 
         if (applicationType == ApplicationType.DynamicsCRM) {
-            var ribbon = document.querySelector('#navBar');
+            var ribbon = window.top.document.querySelector('#navBar');
 
             if (ribbon) {
                 ribbon.prepend(powerPaneButton);
@@ -101,7 +108,7 @@
             return true;
 
         } else if (applicationType == ApplicationType.Dynamics365) {
-            var officeWaffle = document.querySelector("button[data-id=officewaffle]");
+            var officeWaffle = window.top.document.querySelector("button[data-id=officewaffle]");
 
             if (officeWaffle) {
                 officeWaffle.before(powerPaneButton);
@@ -143,7 +150,7 @@
 
                             var style = BuildSytleTag(browser.extension.getURL("ui/css/pane.css"));
                             var script = BuildScriptTag(browser.extension.getURL("ui/js/pane.js"));
-
+                            
                             InjectSource([style, script, content]);
                         }
                         else if (xmlHttp.status == 400) {

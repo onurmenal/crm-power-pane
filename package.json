@@ -1,6 +1,6 @@
 {
   "name": "crm-power-pane",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Dynamics 365 Power Pane is a helper tool designed to integrate with Dynamics CRM/365 application and allow you to manipulate forms.",
   "main": "index.js",
   "scripts": {
