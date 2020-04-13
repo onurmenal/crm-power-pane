@@ -229,8 +229,8 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
         background: url('#{$browserPrefix}/img/action-icons/robot.png');
     }
 
-    span.create-form {
-        background: url('#{$browserPrefix}/img/action-icons/create.png');
+    span.go-to-create-form {
+        background: url('#{$browserPrefix}/img/action-icons/go-to-create-form.png');
     }
 }
 
