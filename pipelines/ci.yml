@@ -1,4 +1,4 @@
-name: '1.2.0.$(build.buildId)'
+name: '1.2.2.$(build.buildId)'
 
 trigger:
   - master
