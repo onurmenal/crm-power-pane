@@ -49,6 +49,7 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     font-size: 14px;
     box-shadow: 5px 5px 5px #CCC;
     clear: both;
+    outline:none;
 }
 
 .crm-power-pane-scrolling-container {
@@ -88,7 +89,7 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
 .crm-power-pane-subgroup {
     height: 40px;
     margin-left: 10px;
-    cursor: pointer;
+    cursor: pointer!important;
 
     span {
         display: inline-block;
@@ -231,6 +232,10 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
 
     span.go-to-create-form {
         background: url('#{$browserPrefix}/img/action-icons/go-to-create-form.png');
+    }
+
+    span.form-editor-icon {
+        background: url('#{$browserPrefix}/img/action-icons/form-editor.png');
     }
 }
 
