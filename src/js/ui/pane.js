@@ -1179,6 +1179,20 @@ $(function () {
                     CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to specified create form.", "error");
                 }
             });
+
+            $("#open-form-editor").click(function () {
+                try {
+                    var params = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
+                    params.push("?pagetype=formeditor");
+                    params.push("&appSolutionId={FD140AAF-4DF4-11DD-BD17-0019B9312238}");
+                    params.push("&etn=" + Xrm.Page.data.entity.getEntityName().toLowerCase());
+                    params.push("&extraqs=formtype=main");
+                    params.push("&formId=" + Xrm.Page.ui.formSelector.getCurrentItem().getId());
+                    window.open(params.join(""), "_blank");
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error ocurred while redirecting to form editor.", "error");
+                }
+            });
         }
     };
 
