@@ -409,18 +409,31 @@ $(function () {
 
             $("#record-url").click(function () {
                 try {
-                    var params = [Xrm.Page.context.getClientUrl() + "/main.aspx"];
-                    params.push("?etn=" + Xrm.Page.data.entity.getEntityName());
-                    params.push("&id=" + Xrm.Page.data.entity.getId());
-                    params.push("&pagetype=entityrecord");
+                    var header = "Record url";
+                    var description = "Url of current record.";
 
-                    CrmPowerPane.UI.BuildOutputPopup(
-                        "Record url",
-                        "Url of current record.",
-                        [{
-                            label: "Record Url",
-                            value: params.join("")
-                        }]);
+                    var url = [Xrm.Page.context.getClientUrl() + "/main.aspx?"];
+                    url.push("etn=" + Xrm.Page.data.entity.getEntityName());
+                    url.push("&id=" + Xrm.Page.data.entity.getId());
+                    url.push("&pagetype=entityrecord");
+
+                    var result = [{
+                        label: "Record Url",
+                        value: url.join("")
+                    }];
+
+                    if (Xrm.Utility && Xrm.Utility.getGlobalContext && Xrm.Utility.getGlobalContext().getCurrentAppProperties) {
+                        Xrm.Utility.getGlobalContext().getCurrentAppProperties().then(function (appDetails) {
+                            url.splice(1, 0, "appid=" + appDetails.appId + "&");
+                            result.push({
+                                label: "Record Url for Current Application",
+                                value: url.join("")
+                            });
+                            CrmPowerPane.UI.BuildOutputPopup(header, description, result);
+                        });
+                    } else {
+                        CrmPowerPane.UI.BuildOutputPopup(header, description, result);
+                    }
                 } catch (e) {
                     CrmPowerPane.Errors.WrongPageWarning();
                 }
