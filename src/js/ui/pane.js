@@ -1223,7 +1223,7 @@ $(function () {
 						});
                     
                 } catch (e) {
-                    CrmPowerPane.UI.ShowNotification(e);
+                    CrmPowerPane.UI.ShowNotification("An error occured opening the Web API URL for this record.");
                 }
 
             });
