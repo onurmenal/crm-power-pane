@@ -1207,28 +1207,25 @@ $(function () {
                 }
             });
 			
-			$("#open-webapi").click(function () {
+	    $("#open-webapi").click(function () {
                 try {
+		    var apiVersion = Xrm.Utility.getGlobalContext().getVersion();
+		    var shortVersion= apiVersion.substring(3, apiVersion.indexOf(".") -1);
 					
-					var apiVersion = Xrm.Utility.getGlobalContext().getVersion();
-					var shortVersion= apiVersion.substring(3, apiVersion.indexOf(".") -1);
-					
-					Xrm.Utility.getEntityMetadata(Xrm.Page.data.entity.getEntityName(),"")
-						.then(function(result){
-							var url = Xrm.Page.context.getClientUrl() + "/api/data/v" + shortVersion + "/" + result.EntitySetName +"(" + Xrm.Page.data.entity.getId() + ")";
-							url = url.replace("{", "").replace("}","");
-					
-							window.open(url,'_blank');
-							
-						});
+		    Xrm.Utility.getEntityMetadata(Xrm.Page.data.entity.getEntityName(),"")
+		        .then(function(result){
+			    var url = Xrm.Page.context.getClientUrl() + "/api/data/v" + shortVersion + "/" + result.EntitySetName +"(" + Xrm.Page.data.entity.getId() + ")";
+			    url = url.replace("{", "").replace("}","");
+			    window.open(url,'_blank');
+    		    });
                     
-                } catch (e) {
-                    CrmPowerPane.UI.ShowNotification("An error occured opening the Web API URL for this record.");
-                }
+                    } catch (e) {
+                        CrmPowerPane.UI.ShowNotification("An error occured opening the Web API URL for this record.");
+                        }
 
-            });
-        }
-    };
+                    });
+                }
+            };
 
     CrmPowerPane.UI.SetButtonBackgrounds();
     CrmPowerPane.RegisterjQueryExtensions();
