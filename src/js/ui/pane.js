@@ -1210,9 +1210,13 @@ $(function () {
 			$("#open-webapi").click(function () {
                 try {
 					
+					var apiVersion = Xrm.Utility.getGlobalContext().getVersion();
+					var shortVersion= apiVersion.substring(3, apiVersion.indexOf(".") -1);
+					
+					CrmPowerPane.UI.ShowNotification(apiVersion);
 					Xrm.Utility.getEntityMetadata(Xrm.Page.data.entity.getEntityName(),"")
 						.then(function(result){
-							var url = Xrm.Page.context.getClientUrl() + "/api/data/v9.0/" + result.EntitySetName +"(" + Xrm.Page.data.entity.getId() + ")";
+							var url = Xrm.Page.context.getClientUrl() + "/api/data/v" + shortVersion + "/" + result.EntitySetName +"(" + Xrm.Page.data.entity.getId() + ")";
 							url = url.replace("{", "").replace("}","");
 					
 							window.open(url,'_blank');
