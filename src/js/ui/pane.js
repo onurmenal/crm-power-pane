@@ -1207,24 +1207,15 @@ $(function () {
                 }
             });
 			
-			$("#record-webapi").click(function () {
+			$("#open-webapi").click(function () {
                 try {
-                    var header = "Record Web API";
-                    var description = "Web API of current record.";
 					
 					Xrm.Utility.getEntityMetadata(Xrm.Page.data.entity.getEntityName(),"")
 						.then(function(result){
-							var url = [Xrm.Page.context.getClientUrl() + "/api/data/v9.0/"];
-							url.push(result.EntitySetName);
-							url.push("(" + Xrm.Page.data.entity.getId().replace("{", "").replace("}",""));
-							url.push(")");
+							var url = Xrm.Page.context.getClientUrl() + "/api/data/v9.0/" + result.EntitySetName +"(" + Xrm.Page.data.entity.getId() + ")";
+							url = url.replace("{", "").replace("}","");
 					
-							var result = [{
-								label: "Record Web API",
-								value: url.join("")
-							}];
-
-							CrmPowerPane.UI.BuildOutputPopup(header, description, result);					
+							window.open(url,'_blank');
 							
 						});
                     
