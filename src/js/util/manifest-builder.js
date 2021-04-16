@@ -47,10 +47,11 @@ const build = (target, version) => {
 
     manifest.background = {};
     manifest.background.scripts = ["js/background.js"];
-    manifest.background.persistent  = false;
+    
 
     // Chrome properties
     if(target === 'chrome') {
+		manifest.background.persistent  = false;
         manifest.options_page = "ui/options.html"
         manifest.browser_action.default_icon = "img/icon-48.png"
     }
@@ -69,6 +70,7 @@ const build = (target, version) => {
 
     // Edge properties
     if(target === 'edge') {
+		manifest.background.persistent  = false;
         manifest.author = "Onur Menal";
         manifest.options_page = "ui/options.html"        
         manifest.browser_action.default_icon = {};
@@ -78,6 +80,7 @@ const build = (target, version) => {
     
     // Chrome properties
     if(target === 'edge-chromium') {
+		manifest.background.persistent  = false;
         manifest.options_page = "ui/options.html"
         manifest.browser_action.default_icon = "img/icon-48.png"
     }
