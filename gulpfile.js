@@ -53,12 +53,13 @@ gulp.task('js', function () {
         .pipe(gulp.dest(`dist/${argv.target}/js`));
 });
 
-gulp.task('manifest', ['ui', 'img', 'js'], function (cb) {
+gulp.task('ui', gulp.series(gulp.parallel('html-ui', 'js-ui', 'sass-ui')));
+
+gulp.task('manifest', gulp.series(gulp.parallel('ui', 'img', 'js'), function (cb) {
     var manifest = manifestBuilder.build(argv.target, buildVersion);
     var manifestJson = JSON.stringify(manifest, null, 2);
     return fs.writeFile(`dist/${argv.target}/manifest.json`, manifestJson, cb)
-});
+}));
 
-gulp.task('ui', ['html-ui', 'js-ui', 'sass-ui']);
-gulp.task('build', ['manifest', 'ui', 'img', 'js']);
-gulp.task('default', ['build']);
+gulp.task('build', gulp.series(gulp.parallel('manifest', 'ui', 'img', 'js')));
+gulp.task('default', gulp.series('build'));
