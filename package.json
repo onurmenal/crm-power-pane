@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "graceful-fs": "^4.2.6",
-    "node-sass": "^5.0.0"
+    "node-sass": "^7.0.0"
   },
   "repository": {
     "type": "git",
