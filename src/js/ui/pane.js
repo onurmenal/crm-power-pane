@@ -1223,6 +1223,18 @@ $(function () {
                         CrmPowerPane.UI.ShowNotification("An error occured opening the Web API URL for this record.");
                     }
                 });
+
+            $("#open-advanced-find").click(function () {
+                try {
+                    Xrm.Utility.getGlobalContext().getCurrentAppProperties().then(function (props) { 
+                        var url = Xrm.Page.context.getClientUrl() + "/main.aspx?appid=" + props.appId + "&pagetype=AdvancedFind";
+                        window.open(url, "_blank");
+                    });                   
+                } catch (e) {
+                    CrmPowerPane.UI.ShowNotification("An error occured opening Advanced Find.");
+                }
+            });
+
             }
         };
 
