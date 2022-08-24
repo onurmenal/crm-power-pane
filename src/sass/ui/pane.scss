@@ -237,6 +237,10 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
     span.form-editor-icon {
         background: url('#{$browserPrefix}/img/action-icons/form-editor.png');
     }
+
+    span.filter-icon {
+        background: url('#{$browserPrefix}/img/action-icons/filter.png');
+    }
 }
 
 #crm-power-pane-notification {
