@@ -17,7 +17,7 @@
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
     "gulp-sass-variables": "^1.2.0",
-    "webpack-stream": "^6.1.2",
+    "webpack-stream": "^7.0.0",
     "yargs": "^16.2.0"
   },
   "directories": {
