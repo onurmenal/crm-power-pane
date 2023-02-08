@@ -1161,6 +1161,29 @@ $(function () {
                 return;
             });
 
+            
+            $("#debug-ribbon-buttons").click(function () {
+                const debuggingParams = {
+                    flags: "FCB.CommandChecker=true",
+                    ribbondebug: true
+                };
+
+                const searchParams = new URLSearchParams(window.location.search);
+                for(var param in debuggingParams) {
+                    const searchParam = searchParams.get(param);
+
+                    if(searchParam === null) {
+                        // add params
+                        searchParams.append(param, debuggingParams[param]);
+                    } else {
+                        // remove params
+                        searchParams.delete(param);
+                    }
+                }
+
+                window.location.replace(`${window.location.protocol}//${window.location.host}${window.location.pathname}?${searchParams.toString()}`);
+            });
+
             $("#solutions").click(function () {
                 window.open(Xrm.Page.context.getClientUrl() +"/tools/Solution/home_solution.aspx?etc=7100" , '_blank');
             });
