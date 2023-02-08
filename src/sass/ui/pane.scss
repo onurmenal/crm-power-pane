@@ -118,6 +118,10 @@ $browserPrefix: 'chrome-extension://__MSG_@@extension_id__' !default;
         background: url('#{$browserPrefix}/img/action-icons/fetch-xml.png');
     }
 
+    span.debug-ribbon-buttons-icon {
+        background: url('#{$browserPrefix}/img/action-icons/debug-ribbon-buttons.png');
+    }
+
     span.solutions-icon {
         background: url('#{$browserPrefix}/img/action-icons/solutions.png');
     }
